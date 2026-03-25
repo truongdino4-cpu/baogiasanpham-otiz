@@ -436,7 +436,8 @@
                 customerInfo: { companyName: "CÔNG TY TNHH TƯ VẤN THIẾT KẾ VÀ XÂY DỰNG NGUYÊN KHÁNH", mst: "316419615", address: "L18-11-13, Tầng 18, Tòa nhà Vincom Center Đồng Khởi, 72 Lê Thánh Tôn, P. Bến Nghé, Q.1, TP.HCM", contactName: "Anh Khánh", phone: "0911981618", quoteDate: new Date().toISOString().split('T')[0] },
                 items: [{ id: 1, title: "(I) BỘ ĐIỀU KHIỂN TRUNG TÂM + ĐIỀU HÒA", products: [{ id: 101, name: "Bộ điều khiển trung tâm Camera Hub G3", description: "", image: null, brand: "AQARA", warranty: 18, qty: 1, unit: "Bộ", price: 3299000 }] }],
                 financials: { discountType: 'amount', discountValue: 0, installationType: 'amount', installationValue: 11000000 },
-                paymentInfo: { show: false, title: "Tài khoản cá nhân:", stk: "STK: ... - Ngân hàng", ctk: "CTK: Trường Otiz" }
+                paymentInfo: { show: false, title: "Tài khoản cá nhân:", stk: "STK: ... - Ngân hàng", ctk: "CTK: Trường Otiz" },
+                serviceInfo: { show: true, title1: "(1) Phí lắp đặt bao gồm:", desc1: "- Thi công phần cứng toàn bộ hệ thống Smarthome.\n- Không bao gồm chi phí kéo dây điện, đục tường.", title2: "(2) Phí dịch vụ bao gồm:", desc2: "- Bảo hành tận nơi theo thời gian bảo hành sản phẩm.\n- Kết nối toàn bộ hệ thống.\n- Thiết kế hệ thống, Cấu hình tự động hóa.\n- Chia phòng, đặt tên thiết bị, cấu hình tự động.\n- Hướng dẫn khách hàng thao tác sử dụng." }
             });
 
             // Tải dữ liệu từ LocalStorage khi khởi động
@@ -601,7 +602,36 @@
                             <div className={`flex break-inside-avoid border-t border-gray-200 ${isPreviewMode ? 'flex-row mt-4 pt-4 gap-8' : 'flex-col md:flex-row mt-4 pt-4 gap-6 md:gap-8'}`}>
                                 {/* Cột Điều khoản & Thanh toán */}
                                 <div className={`w-full flex text-gray-600 ${isPreviewMode ? 'w-1/2 flex-col gap-4 text-xs order-1' : 'md:w-1/2 flex-col sm:flex-row md:flex-col lg:flex-row gap-4 text-[10px] md:text-xs order-2 md:order-1'}`}>
-                                    <div className="flex-1"><h3 className="font-bold text-sky-700 mb-1">(1) Phí lắp đặt bao gồm:</h3><p>- Thi công phần cứng toàn bộ hệ thống Smarthome.</p><p>- Không bao gồm chi phí kéo dây điện, đục tường.</p><h3 className="font-bold text-sky-700 mb-1 mt-2">(2) Phí dịch vụ bao gồm:</h3><p>- Bảo hành tận nơi theo thời gian bảo hành sản phẩm.</p><p>- Kết nối toàn bộ hệ thống.</p><p>- Thiết kế hệ thống, Cấu hình tự động hóa.</p><p>- Chia phòng, đặt tên thiết bị, cấu hình tự động.</p><p>- Hướng dẫn khách hàng thao tác sử dụng.</p></div>
+                                    
+                                    {/* Khối Phí lắp đặt & Dịch vụ */}
+                                    <div className={`flex-1 relative group rounded-lg ${isPreviewMode ? 'bg-transparent p-0' : 'bg-gray-50 md:bg-transparent p-3 md:p-0'}`}>
+                                        {!isPreviewMode && (
+                                            <div className="absolute right-2 md:-left-6 top-2 md:top-0 ui-control flex items-center bg-white md:bg-transparent p-1 rounded border md:border-none shadow-sm md:shadow-none z-10">
+                                                <input 
+                                                    type="checkbox" 
+                                                    checked={data.serviceInfo?.show ?? true} 
+                                                    onChange={(e) => setData({...data, serviceInfo: {...data.serviceInfo, show: e.target.checked}})}
+                                                    className="w-4 h-4 cursor-pointer accent-sky-600"
+                                                    title="Hiển thị/Ẩn thông tin dịch vụ"
+                                                />
+                                            </div>
+                                        )}
+                                        {((data.serviceInfo?.show !== false) || !isPreviewMode) && (
+                                            <div className={(!data.serviceInfo?.show && !isPreviewMode) ? 'opacity-40' : ''}>
+                                                <div className="mb-2">
+                                                    {renderEditable(data.serviceInfo?.title1 || "(1) Phí lắp đặt bao gồm:", (e) => setData({...data, serviceInfo: {...data.serviceInfo, title1: e.target.value}}), "Tiêu đề 1", "font-bold text-sky-700 mb-1 w-full bg-transparent")}
+                                                    {renderEditable(data.serviceInfo?.desc1 || "- Thi công phần cứng toàn bộ hệ thống Smarthome.\n- Không bao gồm chi phí kéo dây điện, đục tường.", (e) => setData({...data, serviceInfo: {...data.serviceInfo, desc1: e.target.value}}), "Mô tả phí lắp đặt...", "w-full bg-transparent text-gray-600 leading-relaxed", true)}
+                                                </div>
+                                                <div>
+                                                    {renderEditable(data.serviceInfo?.title2 || "(2) Phí dịch vụ bao gồm:", (e) => setData({...data, serviceInfo: {...data.serviceInfo, title2: e.target.value}}), "Tiêu đề 2", "font-bold text-sky-700 mb-1 mt-2 w-full bg-transparent")}
+                                                    {renderEditable(data.serviceInfo?.desc2 || "- Bảo hành tận nơi theo thời gian bảo hành sản phẩm.\n- Kết nối toàn bộ hệ thống.\n- Thiết kế hệ thống, Cấu hình tự động hóa.\n- Chia phòng, đặt tên thiết bị, cấu hình tự động.\n- Hướng dẫn khách hàng thao tác sử dụng.", (e) => setData({...data, serviceInfo: {...data.serviceInfo, desc2: e.target.value}}), "Mô tả phí dịch vụ...", "w-full bg-transparent text-gray-600 leading-relaxed", true)}
+                                                </div>
+                                                {!isPreviewMode && !data.serviceInfo?.show && <div className="text-red-500 font-medium mt-2 text-[10px] ui-control bg-red-50 p-1 rounded inline-block">Đang ẩn (Tích vào ô vuông để hiện khi in)</div>}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Khối Thông tin thanh toán */}
                                     <div className={`flex-1 relative group rounded-lg ${isPreviewMode ? 'mt-4 bg-transparent p-0' : 'mt-4 sm:mt-0 md:mt-4 lg:mt-0 bg-gray-50 md:bg-transparent p-3 md:p-0'}`}>
                                         {!isPreviewMode && (
                                             <div className="absolute right-2 md:-left-6 top-2 md:top-0 ui-control flex items-center bg-white md:bg-transparent p-1 rounded border md:border-none shadow-sm md:shadow-none z-10">
