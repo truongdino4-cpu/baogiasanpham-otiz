@@ -91,6 +91,48 @@
             }
         };
 
+        // --- BỘ TỪ ĐIỂN ĐA NGÔN NGỮ ---
+        const i18n = {
+            vi: {
+                email: "Email:", contact: "Liên hệ:", hotline: "Hotline:",
+                quoteDate: "Ngày báo giá:", customer: "Khách hàng:", address: "Địa chỉ:",
+                company: "Công ty:", phone: "SĐT:", mst: "MST:",
+                stt: "STT", image: "Hình ảnh", desc: "Tên thiết bị / Mô tả tính năng",
+                brand: "Hãng", warranty: "BH(T)", qty: "SL", unit: "ĐVT",
+                price: "Đơn giá", total: "Thành tiền", delete: "Xóa",
+                subtotal: "Tổng giá trị:", discount: "Chiết khấu:", amountType: "Số tiền", percentType: "%",
+                afterDiscount: "Giá sau chiết khấu:", installFee: "Phí lắp đặt:",
+                grandTotal: "Tổng Thanh Toán", currency: "VNĐ", currencyShort: "đ",
+                addCategory: "Thêm Hạng Mục (Nhóm) Mới",
+                hideHeaderMsg: "Đang ẩn Header (Logo, Tên công ty) khi IN.",
+                hideCustomerMsg: "Đang ẩn Thông tin Khách hàng khi IN.",
+                hideGreetingMsg: "Đang ẩn Lời chào khi IN.",
+                hideTotalMsg: "Đang ẩn Tổng Tiền khi IN.",
+                hidePaymentMsg: "Đang ẩn (Tích vào ô vuông để hiện khi in)",
+                showPriceCheck: "Hiển thị cột Đơn giá & Thành tiền",
+                uploadLogo: "Tải Logo", changeImage: "Đổi ảnh", uploadImage: "Tải ảnh"
+            },
+            en: {
+                email: "Email:", contact: "Website:", hotline: "Hotline:",
+                quoteDate: "Date:", customer: "Customer:", address: "Address:",
+                company: "Company:", phone: "Phone:", mst: "Tax ID:",
+                stt: "No.", image: "Image", desc: "Item / Description",
+                brand: "Brand", warranty: "Wty(M)", qty: "Qty", unit: "Unit",
+                price: "Unit Price", total: "Amount", delete: "Del",
+                subtotal: "Subtotal:", discount: "Discount:", amountType: "Amount", percentType: "%",
+                afterDiscount: "After Discount:", installFee: "Installation:",
+                grandTotal: "Grand Total", currency: "VND", currencyShort: "₫",
+                addCategory: "Add New Category",
+                hideHeaderMsg: "Header hidden during print.",
+                hideCustomerMsg: "Customer info hidden during print.",
+                hideGreetingMsg: "Greeting hidden during print.",
+                hideTotalMsg: "Totals hidden during print.",
+                hidePaymentMsg: "Hidden during print (Check to show)",
+                showPriceCheck: "Show Unit Price & Amount columns",
+                uploadLogo: "Upload Logo", changeImage: "Change", uploadImage: "Upload"
+            }
+        };
+
         // --- COMPONENTS ---
         const SmartTextarea = ({ value, onChange, className, style, placeholder }) => {
             const ref = useRef(null);
@@ -441,6 +483,7 @@
         // --- MAIN APP ---
         const QuoteTool = () => {
             const [isPreviewMode, setIsPreviewMode] = useState(false);
+            const [lang, setLang] = useState('vi'); // State quản lý ngôn ngữ
             const [dbProducts, setDbProducts] = useState([]);
             const [showProductManager, setShowProductManager] = useState(false);
             const [data, setData] = useState({
@@ -457,6 +500,8 @@
                 footerNote: "Báo giá có giá trị 2 tuần - Aqara Smarthome",
                 signatures: { partyA: "ĐẠI DIỆN KHÁCH HÀNG\n(Ký và ghi rõ họ tên)", partyB: "ĐẠI DIỆN BÊN BÁN\n(Ký và ghi rõ họ tên)" }
             });
+
+            const t = i18n[lang]; // Lấy từ điển theo ngôn ngữ
 
             // Tải dữ liệu từ LocalStorage khi khởi động
             const reloadProducts = () => {
@@ -522,7 +567,7 @@
                 return { subtotal, discount, install, total: (subtotal - discount) + install };
             };
             const totals = calculateTotal();
-            const formatCurrency = (amt) => new Intl.NumberFormat('vi-VN').format(Math.round(amt));
+            const formatCurrency = (amt) => new Intl.NumberFormat(lang === 'vi' ? 'vi-VN' : 'en-US').format(Math.round(amt));
             const handlePrint = () => { if (!isPreviewMode) { setIsPreviewMode(true); setTimeout(() => { document.title = data.fileName; window.print(); }, 500); } else { document.title = data.fileName; window.print(); } };
             const updateItem = (catIdx, prodIdx, field, val) => { const newData = {...data}; newData.items[catIdx].products[prodIdx][field] = val; setData(newData); };
             const addCategory = () => { const newData = {...data}; newData.items.push({ id: Date.now(), title: "(...) HẠNG MỤC MỚI", products: [] }); setData(newData); };
@@ -545,19 +590,19 @@
             const showCustomerInfo = data.settings?.showCustomerInfo ?? true;
             const showGreeting = data.settings?.showGreeting ?? true;
 
-            // Xử lý tiêu đề bảng thông minh
+            // Xử lý tiêu đề bảng thông minh theo ngôn ngữ
             const baseHeaders = [
-                {label: "STT", cls: "w-8 md:w-10"},
-                {label: "Hình ảnh", cls: "w-16 md:w-24"},
-                {label: "Tên thiết bị / Mô tả tính năng", cls: "w-auto"},
-                {label: "Hãng", cls: "w-12 md:w-20 hidden sm:table-cell"},
-                {label: "BH(T)", cls: "w-8 md:w-16"},
-                {label: "SL", cls: "w-8 md:w-14"},
-                {label: "ĐVT", cls: "w-10 md:w-16"}
+                {label: t.stt, cls: "w-8 md:w-10"},
+                {label: t.image, cls: "w-16 md:w-24"},
+                {label: t.desc, cls: "w-auto"},
+                {label: t.brand, cls: "w-12 md:w-20 hidden sm:table-cell"},
+                {label: t.warranty, cls: "w-8 md:w-16"},
+                {label: t.qty, cls: "w-8 md:w-14"},
+                {label: t.unit, cls: "w-10 md:w-16"}
             ];
             if (showPrices) {
-                baseHeaders.push({label: "Đơn giá", cls: "w-20 md:w-28"});
-                baseHeaders.push({label: "Thành tiền", cls: "w-24 md:w-28"});
+                baseHeaders.push({label: t.price, cls: "w-20 md:w-28"});
+                baseHeaders.push({label: t.total, cls: "w-24 md:w-28"});
             }
 
             return (
@@ -572,6 +617,11 @@
                         </div>
                         <div className="flex flex-wrap justify-center gap-2 w-full lg:w-auto">
                             
+                            {/* NÚT CHUYỂN NGÔN NGỮ */}
+                            <button onClick={() => setLang(lang === 'vi' ? 'en' : 'vi')} className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 bg-amber-500 hover:bg-amber-600 text-white rounded shadow-sm font-bold text-xs md:text-sm transition-colors">
+                                {lang === 'vi' ? '🌐 EN' : '🌐 VI'}
+                            </button>
+
                             {/* NÚT MỞ FILE */}
                             <label className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 bg-teal-600 hover:bg-teal-700 text-white rounded shadow-sm font-medium text-xs md:text-sm cursor-pointer transition-colors">
                                 <Icons.FolderOpen size={14} /> <span className="hidden lg:inline">Mở File</span>
@@ -607,26 +657,26 @@
                                         <div className="flex-shrink-0">
                                             <label className={`cursor-pointer group relative block overflow-hidden ${isPreviewMode ? 'w-48 h-24 border-transparent mx-0 flex items-center justify-center' : 'w-32 h-16 md:w-48 md:h-24 border-2 border-dashed border-gray-300 hover:border-sky-500 rounded mx-auto md:mx-0 print:mx-0 flex items-center justify-center'}`}>
                                                 <input type="file" disabled={isPreviewMode} onChange={(e) => handleFileUpload(e, (base64) => setData({...data, companyInfo: {...data.companyInfo, logo: base64}}))} />
-                                                {data.companyInfo.logo ? <img src={data.companyInfo.logo} className="w-full h-full object-contain" /> : !isPreviewMode && <div className="text-gray-400 text-center text-[10px] md:text-xs group-hover:text-sky-500 ui-control"><Icons.Upload size={20} className="mx-auto" />Tải Logo</div>}
+                                                {data.companyInfo.logo ? <img src={data.companyInfo.logo} className="w-full h-full object-contain" /> : !isPreviewMode && <div className="text-gray-400 text-center text-[10px] md:text-xs group-hover:text-sky-500 ui-control"><Icons.Upload size={20} className="mx-auto" />{t.uploadLogo}</div>}
                                             </label>
                                         </div>
                                         <div className={`flex-grow flex flex-col w-full ${isPreviewMode ? 'justify-center items-start' : 'justify-center items-center md:items-start print:items-start'}`}>
-                                            {renderEditable(data.companyInfo.name, (e) => setData({...data, companyInfo: {...data.companyInfo, name: e.target.value}}), "Tên Công Ty", isPreviewMode ? "font-black text-xl uppercase text-left w-full" : "font-black text-lg md:text-xl uppercase text-center md:text-left print:text-left w-full")}
-                                            {renderEditable(data.companyInfo.subName, (e) => setData({...data, companyInfo: {...data.companyInfo, subName: e.target.value}}), "Mô tả phụ", isPreviewMode ? "text-sm italic text-gray-600 text-left mb-0 w-full" : "text-xs md:text-sm italic text-gray-600 text-center md:text-left print:text-left mb-2 md:mb-0 w-full")}
+                                            {renderEditable(data.companyInfo.name, (e) => setData({...data, companyInfo: {...data.companyInfo, name: e.target.value}}), lang === 'vi' ? "Tên Công Ty" : "Company Name", isPreviewMode ? "font-black text-xl uppercase text-left w-full" : "font-black text-lg md:text-xl uppercase text-center md:text-left print:text-left w-full")}
+                                            {renderEditable(data.companyInfo.subName, (e) => setData({...data, companyInfo: {...data.companyInfo, subName: e.target.value}}), lang === 'vi' ? "Mô tả phụ" : "Sub description", isPreviewMode ? "text-sm italic text-gray-600 text-left mb-0 w-full" : "text-xs md:text-sm italic text-gray-600 text-center md:text-left print:text-left mb-2 md:mb-0 w-full")}
                                             <div className={`space-y-1 mt-1 flex flex-col w-full ${isPreviewMode ? 'text-xs items-start' : 'text-[10px] md:text-xs items-center md:items-start print:items-start'}`}>
-                                                <div className={`flex w-full ${isPreviewMode ? 'justify-start' : 'justify-center md:justify-start print:justify-start'}`}><strong className={`shrink-0 text-left ${isPreviewMode ? 'w-24' : 'w-16 md:w-24'}`}>Email:</strong>{renderEditable(data.companyInfo.address, (e) => setData({...data, companyInfo: {...data.companyInfo, address: e.target.value}}), "", "flex-1")}</div>
-                                                <div className={`flex w-full ${isPreviewMode ? 'justify-start' : 'justify-center md:justify-start print:justify-start'}`}><strong className={`shrink-0 text-left ${isPreviewMode ? 'w-24' : 'w-16 md:w-24'}`}>Liên hệ:</strong>{renderEditable(data.companyInfo.website, (e) => setData({...data, companyInfo: {...data.companyInfo, website: e.target.value}}), "", "flex-1")}</div>
-                                                <div className={`flex w-full ${isPreviewMode ? 'justify-start' : 'justify-center md:justify-start print:justify-start'}`}><strong className={`shrink-0 text-left ${isPreviewMode ? 'w-24' : 'w-16 md:w-24'}`}>Hotline:</strong>{renderEditable(data.companyInfo.hotline, (e) => setData({...data, companyInfo: {...data.companyInfo, hotline: e.target.value}}), "", "flex-1 font-bold text-gray-900")}</div>
+                                                <div className={`flex w-full ${isPreviewMode ? 'justify-start' : 'justify-center md:justify-start print:justify-start'}`}><strong className={`shrink-0 text-left ${isPreviewMode ? 'w-24' : 'w-16 md:w-24'}`}>{t.email}</strong>{renderEditable(data.companyInfo.address, (e) => setData({...data, companyInfo: {...data.companyInfo, address: e.target.value}}), "", "flex-1")}</div>
+                                                <div className={`flex w-full ${isPreviewMode ? 'justify-start' : 'justify-center md:justify-start print:justify-start'}`}><strong className={`shrink-0 text-left ${isPreviewMode ? 'w-24' : 'w-16 md:w-24'}`}>{t.contact}</strong>{renderEditable(data.companyInfo.website, (e) => setData({...data, companyInfo: {...data.companyInfo, website: e.target.value}}), "", "flex-1")}</div>
+                                                <div className={`flex w-full ${isPreviewMode ? 'justify-start' : 'justify-center md:justify-start print:justify-start'}`}><strong className={`shrink-0 text-left ${isPreviewMode ? 'w-24' : 'w-16 md:w-24'}`}>{t.hotline}</strong>{renderEditable(data.companyInfo.hotline, (e) => setData({...data, companyInfo: {...data.companyInfo, hotline: e.target.value}}), "", "flex-1 font-bold text-gray-900")}</div>
                                             </div>
                                         </div>
                                     </div>
-                                    {!isPreviewMode && !showHeader && <div className="text-red-500 font-medium text-[10px] ui-control bg-red-50 p-1 rounded inline-block mb-4">Đang ẩn Header (Logo, Tên công ty) khi IN.</div>}
+                                    {!isPreviewMode && !showHeader && <div className="text-red-500 font-medium text-[10px] ui-control bg-red-50 p-1 rounded inline-block mb-4">{t.hideHeaderMsg}</div>}
                                 </div>
                             )}
 
                             <div className={`flex ${isPreviewMode ? 'flex-row justify-between items-end mb-6' : 'flex-col sm:flex-row print:flex-row justify-between items-center sm:items-end print:items-end mb-4 md:mb-6 gap-2'}`}>
                                 <div className={`w-full ${isPreviewMode ? 'text-left pr-8 sm:w-auto' : 'sm:w-auto print:w-auto text-center sm:text-left print:text-left pr-0 sm:pr-8 print:pr-8'}`}>
-                                    {renderEditable(data.projectTitle || "", (e) => setData({...data, projectTitle: e.target.value}), "TIÊU ĐỀ BÁO GIÁ", `font-bold text-sky-600 uppercase w-full ${isPreviewMode ? 'text-3xl text-left' : 'text-2xl md:text-3xl text-center sm:text-left print:text-left'}`)}
+                                    {renderEditable(data.projectTitle || "", (e) => setData({...data, projectTitle: e.target.value}), lang === 'vi' ? "TIÊU ĐỀ BÁO GIÁ" : "DOCUMENT TITLE", `font-bold text-sky-600 uppercase w-full ${isPreviewMode ? 'text-3xl text-left' : 'text-2xl md:text-3xl text-center sm:text-left print:text-left'}`)}
                                 </div>
                                 {(showDate || !isPreviewMode) && (
                                     <div className={`flex-shrink-0 italic text-gray-500 relative group/date ${!showDate && !isPreviewMode ? 'opacity-30' : ''} ${isPreviewMode ? 'text-xs text-right mt-0' : 'text-[10px] md:text-xs text-center sm:text-right print:text-right mt-2 sm:mt-0 print:mt-0'}`}>
@@ -635,7 +685,7 @@
                                                 <input type="checkbox" checked={showDate} onChange={(e) => setData({...data, settings: {...(data.settings || {}), showDate: e.target.checked}})} className="w-4 h-4 cursor-pointer accent-sky-600" title="Hiển thị/Ẩn Ngày Báo Giá" />
                                             </div>
                                         )}
-                                        Ngày báo giá: {new Date(data.customerInfo.quoteDate).toLocaleDateString('vi-VN')}
+                                        {t.quoteDate} {new Date(data.customerInfo.quoteDate).toLocaleDateString(lang === 'vi' ? 'vi-VN' : 'en-GB')}
                                     </div>
                                 )}
                             </div>
@@ -650,18 +700,18 @@
                                     )}
                                     <div className={`grid gap-x-12 gap-y-2 rounded-lg ${isPreviewMode ? 'grid-cols-2 text-xs bg-transparent border-none p-0' : 'grid-cols-1 sm:grid-cols-2 print:grid-cols-2 text-[10px] md:text-xs bg-gray-50 p-3 border border-gray-100 print:bg-transparent print:border-none print:p-0'}`}>
                                         <div>
-                                            <div className="flex mb-2 items-center"><span className={`font-bold text-sky-700 shrink-0 ${isPreviewMode ? 'w-24' : 'w-20 md:w-24'}`}>Khách hàng:</span>{renderEditable(data.customerInfo.companyName, (e) => setData({...data, customerInfo: {...data.customerInfo, companyName: e.target.value}}), "", "flex-1 font-medium bg-transparent", true)}</div>
-                                            <div className="flex mb-2 items-center"><span className={`font-bold text-sky-700 shrink-0 ${isPreviewMode ? 'w-24' : 'w-20 md:w-24'}`}>Địa chỉ:</span>{renderEditable(data.customerInfo.address, (e) => setData({...data, customerInfo: {...data.customerInfo, address: e.target.value}}), "", "flex-1 bg-transparent", true)}</div>
+                                            <div className="flex mb-2 items-center"><span className={`font-bold text-sky-700 shrink-0 ${isPreviewMode ? 'w-24' : 'w-20 md:w-24'}`}>{t.customer}</span>{renderEditable(data.customerInfo.companyName, (e) => setData({...data, customerInfo: {...data.customerInfo, companyName: e.target.value}}), "", "flex-1 font-medium bg-transparent", true)}</div>
+                                            <div className="flex mb-2 items-center"><span className={`font-bold text-sky-700 shrink-0 ${isPreviewMode ? 'w-24' : 'w-20 md:w-24'}`}>{t.address}</span>{renderEditable(data.customerInfo.address, (e) => setData({...data, customerInfo: {...data.customerInfo, address: e.target.value}}), "", "flex-1 bg-transparent", true)}</div>
                                         </div>
                                         <div>
-                                            <div className="flex mb-2 items-center"><span className={`font-bold text-sky-700 shrink-0 ${isPreviewMode ? 'w-24' : 'w-20 md:w-24'}`}>Công ty:</span>{renderEditable(data.customerInfo.contactName, (e) => setData({...data, customerInfo: {...data.customerInfo, contactName: e.target.value}}), "", "flex-1 bg-transparent")}</div>
+                                            <div className="flex mb-2 items-center"><span className={`font-bold text-sky-700 shrink-0 ${isPreviewMode ? 'w-24' : 'w-20 md:w-24'}`}>{t.company}</span>{renderEditable(data.customerInfo.contactName, (e) => setData({...data, customerInfo: {...data.customerInfo, contactName: e.target.value}}), "", "flex-1 bg-transparent")}</div>
                                             <div className={`flex mb-2 ${isPreviewMode ? 'flex-row gap-0' : 'flex-col min-[400px]:flex-row print:flex-row gap-2 min-[400px]:gap-0 print:gap-0'}`}>
-                                                <div className={`flex items-center w-full ${isPreviewMode ? 'w-1/2 pr-2' : 'min-[400px]:w-1/2 print:w-1/2 min-[400px]:pr-2 print:pr-2'}`}><span className={`font-bold text-sky-700 shrink-0 ${isPreviewMode ? 'w-16' : 'w-20 min-[400px]:w-16 print:w-16'}`}>SĐT:</span>{renderEditable(data.customerInfo.phone, (e) => setData({...data, customerInfo: {...data.customerInfo, phone: e.target.value}}), "", "flex-1 bg-transparent")}</div>
-                                                <div className={`flex items-center w-full ${isPreviewMode ? 'w-1/2 pl-2' : 'min-[400px]:w-1/2 print:w-1/2 min-[400px]:pl-2 print:pl-2'}`}><span className={`font-bold text-sky-700 shrink-0 ${isPreviewMode ? 'w-12' : 'w-20 min-[400px]:w-12 print:w-12'}`}>MST:</span>{renderEditable(data.customerInfo.mst, (e) => setData({...data, customerInfo: {...data.customerInfo, mst: e.target.value}}), "", "flex-1 bg-transparent")}</div>
+                                                <div className={`flex items-center w-full ${isPreviewMode ? 'w-1/2 pr-2' : 'min-[400px]:w-1/2 print:w-1/2 min-[400px]:pr-2 print:pr-2'}`}><span className={`font-bold text-sky-700 shrink-0 ${isPreviewMode ? 'w-16' : 'w-20 min-[400px]:w-16 print:w-16'}`}>{t.phone}</span>{renderEditable(data.customerInfo.phone, (e) => setData({...data, customerInfo: {...data.customerInfo, phone: e.target.value}}), "", "flex-1 bg-transparent")}</div>
+                                                <div className={`flex items-center w-full ${isPreviewMode ? 'w-1/2 pl-2' : 'min-[400px]:w-1/2 print:w-1/2 min-[400px]:pl-2 print:pl-2'}`}><span className={`font-bold text-sky-700 shrink-0 ${isPreviewMode ? 'w-12' : 'w-20 min-[400px]:w-12 print:w-12'}`}>{t.mst}</span>{renderEditable(data.customerInfo.mst, (e) => setData({...data, customerInfo: {...data.customerInfo, mst: e.target.value}}), "", "flex-1 bg-transparent")}</div>
                                             </div>
                                         </div>
                                     </div>
-                                    {!isPreviewMode && !showCustomerInfo && <div className="text-red-500 font-medium text-[10px] ui-control bg-red-50 p-1 rounded inline-block mt-1">Đang ẩn Thông tin Khách hàng khi IN.</div>}
+                                    {!isPreviewMode && !showCustomerInfo && <div className="text-red-500 font-medium text-[10px] ui-control bg-red-50 p-1 rounded inline-block mt-1">{t.hideCustomerMsg}</div>}
                                 </div>
                             )}
                             
@@ -675,7 +725,7 @@
                                     <div className="text-[10px] md:text-xs italic text-gray-600 text-justify flex w-full">
                                         {renderEditable(data.greetingNote ?? "Aqara Smarthome xin chân thành cảm ơn Quý Khách đã quan tâm đến sản phẩm của chúng tôi, phúc đáp theo yêu cầu của Quý Khách chúng tôi xin gửi bảng báo giá như sau:", (e) => setData({...data, greetingNote: e.target.value}), "Lời chào báo giá...", "w-full bg-transparent flex-1", true)}
                                     </div>
-                                    {!isPreviewMode && !showGreeting && <div className="text-red-500 font-medium text-[10px] ui-control bg-red-50 p-1 rounded inline-block mt-1">Đang ẩn Lời chào khi IN.</div>}
+                                    {!isPreviewMode && !showGreeting && <div className="text-red-500 font-medium text-[10px] ui-control bg-red-50 p-1 rounded inline-block mt-1">{t.hideGreetingMsg}</div>}
                                 </div>
                             )}
 
@@ -684,7 +734,7 @@
                                 <div className="flex justify-end mb-2 ui-control">
                                     <label className="flex items-center gap-2 text-[10px] md:text-xs font-bold text-sky-700 cursor-pointer bg-sky-50 px-2 py-1 rounded border border-sky-200">
                                         <input type="checkbox" checked={showPrices} onChange={(e) => setData({...data, settings: {...(data.settings || {}), showPrices: e.target.checked}})} className="w-3 h-3 accent-sky-600" />
-                                        Hiển thị cột Đơn giá & Thành tiền
+                                        {t.showPriceCheck}
                                     </label>
                                 </div>
                             )}
@@ -697,7 +747,7 @@
                                             {baseHeaders.map((h,i) => (
                                                 <th key={i} className={`bg-sky-600 text-white font-bold text-[10px] md:text-[11px] py-2 uppercase border border-sky-600 ${h.cls}`}>{h.label}</th>
                                             ))}
-                                            {!isPreviewMode && <th className="bg-gray-700 text-white font-bold text-[10px] md:text-[11px] py-2 uppercase border border-gray-700 w-10 delete-col">Xóa</th>}
+                                            {!isPreviewMode && <th className="bg-gray-700 text-white font-bold text-[10px] md:text-[11px] py-2 uppercase border border-gray-700 w-10 delete-col">{t.delete}</th>}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -749,7 +799,7 @@
                                                                             {!isPreviewMode && (
                                                                                 <div className={`text-gray-400 flex flex-col items-center justify-center ui-control absolute inset-0 z-0 transition-opacity ${p.MaSP ? 'opacity-0 group-hover/imgbox:opacity-100 bg-white/80 z-30' : ''}`}>
                                                                                     <Icons.Upload size={16} className="mb-1" />
-                                                                                    <span className="text-[8px] md:text-[10px] text-center px-1 leading-tight">{p.MaSP ? 'Đổi ảnh' : 'Tải ảnh'}</span>
+                                                                                    <span className="text-[8px] md:text-[10px] text-center px-1 leading-tight">{p.MaSP ? t.changeImage : t.uploadImage}</span>
                                                                                 </div>
                                                                             )}
                                                                         </React.Fragment>
@@ -759,7 +809,7 @@
                                                         </td>
 
                                                         <td className="px-2 pt-1 align-top relative">
-                                                            <ProductAutocomplete value={p.name} onChange={(e) => updateItem(catIdx, pIdx, 'name', e.target.value)} onSelectProduct={(prodData) => handleAutoFillProduct(catIdx, pIdx, prodData)} dbProducts={dbProducts} isPreviewMode={isPreviewMode} placeholder="Nhập tên sản phẩm..." className="font-bold text-gray-800 text-[11px] md:text-xs" />
+                                                            <ProductAutocomplete value={p.name} onChange={(e) => updateItem(catIdx, pIdx, 'name', e.target.value)} onSelectProduct={(prodData) => handleAutoFillProduct(catIdx, pIdx, prodData)} dbProducts={dbProducts} isPreviewMode={isPreviewMode} placeholder={lang === 'vi' ? "Nhập tên sản phẩm..." : "Enter product name..."} className="font-bold text-gray-800 text-[11px] md:text-xs" />
                                                             {renderEditable(p.description, (e) => updateItem(catIdx, pIdx, 'description', e.target.value), "Mô tả chi tiết...", "text-gray-500 text-[9px] md:text-[10px] mt-1 text-justify", true)}
                                                         </td>
                                                         <td className="px-1 pt-2 align-top w-12 md:w-20 hidden sm:table-cell">{renderEditable(p.brand, (e) => updateItem(catIdx, pIdx, 'brand', e.target.value), "", "text-center uppercase font-semibold text-[10px] md:text-[11px]")}</td>
@@ -784,7 +834,7 @@
                                 </table>
                             </div>
                             
-                            {!isPreviewMode && <div className="ui-control mt-2 mb-6 text-center"><button onClick={addCategory} className="border border-dashed border-sky-400 text-sky-600 px-4 py-2 rounded text-xs md:text-sm hover:bg-sky-50 shadow-sm w-full md:w-auto"><Icons.Plus size={14} className="inline mr-1"/> Thêm Hạng Mục (Nhóm) Mới</button></div>}
+                            {!isPreviewMode && <div className="ui-control mt-2 mb-6 text-center"><button onClick={addCategory} className="border border-dashed border-sky-400 text-sky-600 px-4 py-2 rounded text-xs md:text-sm hover:bg-sky-50 shadow-sm w-full md:w-auto"><Icons.Plus size={14} className="inline mr-1"/> {t.addCategory}</button></div>}
                             
                             {/* FOOTER: Ép cứng form dọc nằm ngang khi IN */}
                             <div className={`flex break-inside-avoid border-t border-gray-200 ${isPreviewMode ? 'flex-row mt-4 pt-4 gap-8' : 'flex-col md:flex-row mt-4 pt-4 gap-6 md:gap-8'}`}>
@@ -814,7 +864,6 @@
                                                     {renderEditable(data.serviceInfo?.title2 || "(2) Phí dịch vụ bao gồm:", (e) => setData({...data, serviceInfo: {...data.serviceInfo, title2: e.target.value}}), "Tiêu đề 2", "font-bold text-sky-700 mb-1 mt-2 w-full bg-transparent")}
                                                     {renderEditable(data.serviceInfo?.desc2 || "- Bảo hành tận nơi theo thời gian bảo hành sản phẩm.\n- Kết nối toàn bộ hệ thống.\n- Thiết kế hệ thống, Cấu hình tự động hóa.\n- Chia phòng, đặt tên thiết bị, cấu hình tự động.\n- Hướng dẫn khách hàng thao tác sử dụng.", (e) => setData({...data, serviceInfo: {...data.serviceInfo, desc2: e.target.value}}), "Mô tả phí dịch vụ...", "w-full bg-transparent text-gray-600 leading-relaxed", true)}
                                                 </div>
-                                                {!isPreviewMode && data.serviceInfo?.show === false && <div className="text-red-500 font-medium mt-2 text-[10px] ui-control bg-red-50 p-1 rounded inline-block">Đang ẩn (Tích vào ô vuông để hiện khi in)</div>}
                                             </div>
                                         )}
                                     </div>
@@ -840,7 +889,7 @@
                                                     <p>{renderEditable(data.paymentInfo?.stk || "STK: ...", (e) => setData({...data, paymentInfo: {...data.paymentInfo, stk: e.target.value}}), "Số tài khoản", "w-full bg-transparent")}</p>
                                                     <p>{renderEditable(data.paymentInfo?.ctk || "CTK: ...", (e) => setData({...data, paymentInfo: {...data.paymentInfo, ctk: e.target.value}}), "Chủ tài khoản", "w-full bg-transparent")}</p>
                                                 </div>
-                                                {!isPreviewMode && !data.paymentInfo?.show && <div className="text-red-500 font-medium mt-2 text-[10px] ui-control bg-red-50 p-1 rounded inline-block">Đang ẩn (Tích vào ô vuông để hiện khi in)</div>}
+                                                {!isPreviewMode && !data.paymentInfo?.show && <div className="text-red-500 font-medium mt-2 text-[10px] ui-control bg-red-50 p-1 rounded inline-block">{t.hidePaymentMsg}</div>}
                                             </div>
                                         )}
                                     </div>
@@ -862,24 +911,24 @@
 
                                     {(showFinancials || !isPreviewMode) && (
                                         <div className={!showFinancials && !isPreviewMode ? 'opacity-30' : ''}>
-                                            <div className={`flex justify-between items-center border-b ${isPreviewMode ? 'py-1 border-gray-100' : 'py-1.5 md:py-1 border-sky-100 md:border-gray-100'}`}><span className={`font-bold text-gray-700 ${isPreviewMode ? 'text-base' : 'text-sm md:text-base'}`}>Tổng giá trị:</span><span className={`font-bold ${isPreviewMode ? 'text-lg' : 'text-base md:text-lg'}`}>{formatCurrency(totals.subtotal)} đ</span></div>
+                                            <div className={`flex justify-between items-center border-b ${isPreviewMode ? 'py-1 border-gray-100' : 'py-1.5 md:py-1 border-sky-100 md:border-gray-100'}`}><span className={`font-bold text-gray-700 ${isPreviewMode ? 'text-base' : 'text-sm md:text-base'}`}>{t.subtotal}</span><span className={`font-bold ${isPreviewMode ? 'text-lg' : 'text-base md:text-lg'}`}>{formatCurrency(totals.subtotal)} {t.currencyShort}</span></div>
                                             
                                             <div className={`flex justify-between items-center border-b ${isPreviewMode ? 'py-1 border-gray-100 text-sm' : 'py-1.5 md:py-1 border-sky-100 md:border-gray-100 text-xs md:text-sm'}`}>
-                                                <span className="text-gray-600 flex items-center gap-2">Chiết khấu: {!isPreviewMode && <button className="ui-control bg-sky-200 md:bg-gray-200 px-1.5 py-0.5 rounded hover:bg-sky-300 shadow-sm" onClick={() => setData({...data, financials: {...data.financials, discountType: data.financials.discountType === 'amount' ? 'percent' : 'amount'}})}><Icons.RefreshCcw size={10}/> {data.financials.discountType === 'amount' ? 'Số tiền' : '%'}</button>}</span>
-                                                <div className="flex items-center gap-1">{renderEditable(data.financials.discountType === 'amount' ? formatCurrency(data.financials.discountValue) : data.financials.discountValue, (e) => setData({...data, financials: {...data.financials, discountValue: parseInt(e.target.value.replace(/[^0-9]/g,''))||0}}), "0", `text-right text-red-500 font-bold bg-transparent ${isPreviewMode ? 'w-24' : 'w-20 md:w-24'}`)} <span className={`font-bold w-6 ${isPreviewMode ? 'text-xs' : 'text-[10px] md:text-xs'}`}>{data.financials.discountType === 'amount' ? 'đ' : '%'}</span></div>
+                                                <span className="text-gray-600 flex items-center gap-2">{t.discount} {!isPreviewMode && <button className="ui-control bg-sky-200 md:bg-gray-200 px-1.5 py-0.5 rounded hover:bg-sky-300 shadow-sm" onClick={() => setData({...data, financials: {...data.financials, discountType: data.financials.discountType === 'amount' ? 'percent' : 'amount'}})}><Icons.RefreshCcw size={10}/> {data.financials.discountType === 'amount' ? t.amountType : t.percentType}</button>}</span>
+                                                <div className="flex items-center gap-1">{renderEditable(data.financials.discountType === 'amount' ? formatCurrency(data.financials.discountValue) : data.financials.discountValue, (e) => setData({...data, financials: {...data.financials, discountValue: parseInt(e.target.value.replace(/[^0-9]/g,''))||0}}), "0", `text-right text-red-500 font-bold bg-transparent ${isPreviewMode ? 'w-24' : 'w-20 md:w-24'}`)} <span className={`font-bold w-6 ${isPreviewMode ? 'text-xs' : 'text-[10px] md:text-xs'}`}>{data.financials.discountType === 'amount' ? t.currencyShort : t.percentType}</span></div>
                                             </div>
-                                            {data.financials.discountType === 'percent' && <div className={`flex justify-end text-red-500 font-medium italic ${isPreviewMode ? 'text-[10px]' : 'text-[10px]'}`}>- {formatCurrency(totals.discount)} đ</div>}
+                                            {data.financials.discountType === 'percent' && <div className={`flex justify-end text-red-500 font-medium italic ${isPreviewMode ? 'text-[10px]' : 'text-[10px]'}`}>- {formatCurrency(totals.discount)} {t.currencyShort}</div>}
                                             
-                                            <div className={`flex justify-between items-center border-b mt-1 ${isPreviewMode ? 'py-1 border-gray-100' : 'py-1.5 md:py-1 border-sky-100 md:border-gray-100'}`}><span className={`font-bold text-gray-700 ${isPreviewMode ? 'text-sm' : 'text-xs md:text-sm'}`}>Giá sau chiết khấu:</span><span className={`font-bold text-sky-800 ${isPreviewMode ? 'text-base' : 'text-sm md:text-base'}`}>{formatCurrency(totals.subtotal - totals.discount)} đ</span></div>
+                                            <div className={`flex justify-between items-center border-b mt-1 ${isPreviewMode ? 'py-1 border-gray-100' : 'py-1.5 md:py-1 border-sky-100 md:border-gray-100'}`}><span className={`font-bold text-gray-700 ${isPreviewMode ? 'text-sm' : 'text-xs md:text-sm'}`}>{t.afterDiscount}</span><span className={`font-bold text-sky-800 ${isPreviewMode ? 'text-base' : 'text-sm md:text-base'}`}>{formatCurrency(totals.subtotal - totals.discount)} {t.currencyShort}</span></div>
                                             
                                             <div className={`flex justify-between items-center border-b ${isPreviewMode ? 'py-1 border-gray-100 text-sm' : 'py-1.5 md:py-1 border-sky-100 md:border-gray-100 text-xs md:text-sm'}`}>
-                                                <span className="text-gray-600 flex items-center gap-2">Phí lắp đặt: {!isPreviewMode && <button className="ui-control bg-sky-200 md:bg-gray-200 px-1.5 py-0.5 rounded hover:bg-sky-300 shadow-sm" onClick={() => setData({...data, financials: {...data.financials, installationType: data.financials.installationType === 'amount' ? 'percent' : 'amount'}})}><Icons.RefreshCcw size={10}/> {data.financials.installationType === 'amount' ? 'Số tiền' : '%'}</button>}</span>
-                                                <div className="flex items-center gap-1">{renderEditable(data.financials.installationType === 'amount' ? formatCurrency(data.financials.installationValue) : data.financials.installationValue, (e) => setData({...data, financials: {...data.financials, installationValue: parseInt(e.target.value.replace(/[^0-9]/g,''))||0}}), "0", `text-right font-medium bg-transparent ${isPreviewMode ? 'w-24' : 'w-20 md:w-24'}`)} <span className={`text-gray-500 w-6 ${isPreviewMode ? 'text-xs' : 'text-[10px] md:text-xs'}`}>{data.financials.installationType === 'amount' ? 'đ' : '%'}</span></div>
+                                                <span className="text-gray-600 flex items-center gap-2">{t.installFee} {!isPreviewMode && <button className="ui-control bg-sky-200 md:bg-gray-200 px-1.5 py-0.5 rounded hover:bg-sky-300 shadow-sm" onClick={() => setData({...data, financials: {...data.financials, installationType: data.financials.installationType === 'amount' ? 'percent' : 'amount'}})}><Icons.RefreshCcw size={10}/> {data.financials.installationType === 'amount' ? t.amountType : t.percentType}</button>}</span>
+                                                <div className="flex items-center gap-1">{renderEditable(data.financials.installationType === 'amount' ? formatCurrency(data.financials.installationValue) : data.financials.installationValue, (e) => setData({...data, financials: {...data.financials, installationValue: parseInt(e.target.value.replace(/[^0-9]/g,''))||0}}), "0", `text-right font-medium bg-transparent ${isPreviewMode ? 'w-24' : 'w-20 md:w-24'}`)} <span className={`text-gray-500 w-6 ${isPreviewMode ? 'text-xs' : 'text-[10px] md:text-xs'}`}>{data.financials.installationType === 'amount' ? t.currencyShort : t.percentType}</span></div>
                                             </div>
-                                            {data.financials.installationType === 'percent' && <div className={`flex justify-end text-gray-500 font-medium italic ${isPreviewMode ? 'text-[10px]' : 'text-[10px]'}`}>+ {formatCurrency(totals.install)} đ</div>}
+                                            {data.financials.installationType === 'percent' && <div className={`flex justify-end text-gray-500 font-medium italic ${isPreviewMode ? 'text-[10px]' : 'text-[10px]'}`}>+ {formatCurrency(totals.install)} {t.currencyShort}</div>}
                                             
-                                            <div className={`flex justify-between items-center bg-sky-600 text-white rounded shadow-md ${isPreviewMode ? 'py-4 mt-3 px-5' : 'py-3 md:py-4 mt-3 px-4 md:px-5'}`}><span className={`font-bold uppercase tracking-wider ${isPreviewMode ? 'text-base' : 'text-sm md:text-base'}`}>Tổng Thanh Toán</span><span className={`font-black ${isPreviewMode ? 'text-2xl' : 'text-xl md:text-2xl'}`}>{formatCurrency(totals.total)} <span className={`font-medium ${isPreviewMode ? 'text-lg' : 'text-sm md:text-lg'}`}>VNĐ</span></span></div>
-                                            {!isPreviewMode && !showFinancials && <div className="text-red-500 font-medium mt-2 text-[10px] ui-control bg-red-50 p-1 rounded inline-block">Đang ẩn Tổng Tiền khi IN.</div>}
+                                            <div className={`flex justify-between items-center bg-sky-600 text-white rounded shadow-md ${isPreviewMode ? 'py-4 mt-3 px-5' : 'py-3 md:py-4 mt-3 px-4 md:px-5'}`}><span className={`font-bold uppercase tracking-wider ${isPreviewMode ? 'text-base' : 'text-sm md:text-base'}`}>{t.grandTotal}</span><span className={`font-black ${isPreviewMode ? 'text-2xl' : 'text-xl md:text-2xl'}`}>{formatCurrency(totals.total)} <span className={`font-medium ${isPreviewMode ? 'text-lg' : 'text-sm md:text-lg'}`}>{t.currency}</span></span></div>
+                                            {!isPreviewMode && !showFinancials && <div className="text-red-500 font-medium mt-2 text-[10px] ui-control bg-red-50 p-1 rounded inline-block">{t.hideTotalMsg}</div>}
                                         </div>
                                     )}
                                 </div>
