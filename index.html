@@ -10,7 +10,8 @@
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Khóa cứng phiên bản Babel ổn định để tránh lỗi tự động cập nhật từ bên thứ 3 -->
+    <script src="https://unpkg.com/@babel/standalone@7.23.10/babel.min.js"></script>
 
     <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
 
@@ -48,7 +49,10 @@
 </head>
 <body>
     <div id="root"></div>
-    <script type="text/babel">
+    <script type="text/babel" data-presets="react,env">
+        /* @jsx React.createElement */
+        /* @jsxFrag React.Fragment */
+        
         const { useState, useEffect, useRef } = React;
 
         const Icons = {
@@ -60,7 +64,7 @@
             Upload: ({size=16, className=""}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>,
             RefreshCcw: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 2v6h6"/><path d="M21 12A9 9 0 0 0 6 5.3L3 8"/><path d="M21 22v-6h-6"/><path d="M3 12a9 9 0 0 0 15 6.7l3-2.7"/></svg>,
             Edit: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>,
-            Eye: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8-11-8-11-8-11-8-11-8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>,
+            Eye: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8-11-8-11-8-11-8-11-8-11-8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>,
             Settings: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>,
             Download: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>,
             FolderOpen: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
@@ -483,16 +487,16 @@
         // --- MAIN APP ---
         const QuoteTool = () => {
             const [isPreviewMode, setIsPreviewMode] = useState(false);
-            const [lang, setLang] = useState('vi'); // State quản lý ngôn ngữ
+            const [lang, setLang] = useState('vi'); 
             const [dbProducts, setDbProducts] = useState([]);
             const [showProductManager, setShowProductManager] = useState(false);
             const [data, setData] = useState({
                 fileName: "Báo giá mới",
                 projectTitle: "BÁO GIÁ_Smart Home",
-                companyInfo: { logo: null, name: "Aqara Smarthome", subName: "Giải pháp chiếu sáng chuyên nghiệp và thông minh toàn diện", address: "truongdino4@gmail.com", website: "Trường Otiz", hotline: "0363035960" },
-                customerInfo: { companyName: "CÔNG TY TNHH TƯ VẤN THIẾT KẾ VÀ XÂY DỰNG NGUYÊN KHÁNH", mst: "316419615", address: "L18-11-13, Tầng 18, Tòa nhà Vincom Center Đồng Khởi, 72 Lê Thánh Tôn, P. Bến Nghé, Q.1, TP.HCM", contactName: "Anh Khánh", phone: "0911981618", quoteDate: new Date().toISOString().split('T')[0] },
+                companyInfo: { logo: null, name: "Aqara Smarthome", subName: "Giải pháp chiếu sáng chuyên nghiệp và thông minh toàn diện", address: "truongdino4@gmail.com", website: "otizsmarthome.io.vn", hotline: "0363035960" },
+                customerInfo: { companyName: "CÔNG TY ...", mst: "316419615", address: "L18-11-13, Tầng 18, Tòa nhà Vincom Center Đồng Khởi, 72 Lê Thánh Tôn, P. Bến Nghé, Q.1, TP.HCM", contactName: "Anh A", phone: "0911981618", quoteDate: new Date().toISOString().split('T')[0] },
                 items: [{ id: 1, title: "(I) BỘ ĐIỀU KHIỂN TRUNG TÂM + ĐIỀU HÒA", products: [{ id: 101, MaSP: "", name: "Bộ điều khiển trung tâm Camera Hub G3", description: "", image: null, brand: "AQARA", warranty: 18, qty: 1, unit: "Bộ", price: 3299000 }] }],
-                financials: { discountType: 'amount', discountValue: 0, installationType: 'amount', installationValue: 11000000 },
+                financials: { discountType: 'amount', discountValue: 0, installationType: 'amount', installationValue: 11000000, showDiscount: true, showInstall: true },
                 paymentInfo: { show: false, title: "Tài khoản cá nhân:", stk: "STK: ... - Ngân hàng", ctk: "CTK: Trường Otiz" },
                 serviceInfo: { show1: true, show2: true, title1: "(1) Phí lắp đặt bao gồm:", desc1: "- Thi công phần cứng toàn bộ hệ thống Smarthome.\n- Không bao gồm chi phí kéo dây điện, đục tường.", title2: "(2) Phí dịch vụ bao gồm:", desc2: "- Bảo hành tận nơi theo thời gian bảo hành sản phẩm.\n- Kết nối toàn bộ hệ thống.\n- Thiết kế hệ thống, Cấu hình tự động hóa.\n- Chia phòng, đặt tên thiết bị, cấu hình tự động.\n- Hướng dẫn khách hàng thao tác sử dụng." },
                 settings: { showHeader: true, showPrices: true, showFinancials: true, showSignatures: true, showDate: true, showCustomerInfo: true, showGreeting: true },
@@ -501,9 +505,8 @@
                 signatures: { partyA: "ĐẠI DIỆN KHÁCH HÀNG\n(Ký và ghi rõ họ tên)", partyB: "ĐẠI DIỆN BÊN BÁN\n(Ký và ghi rõ họ tên)" }
             });
 
-            const t = i18n[lang]; // Lấy từ điển theo ngôn ngữ
+            const t = i18n[lang]; 
 
-            // Tải dữ liệu từ LocalStorage khi khởi động
             const reloadProducts = () => {
                 const prods = localDbHelper.getProducts();
                 setDbProducts(prods);
@@ -511,7 +514,6 @@
 
             useEffect(() => { reloadProducts(); }, []);
 
-            // HÀM LƯU FILE BÁO GIÁ RA MÁY
             const handleExportQuote = () => {
                 const dataStr = JSON.stringify(data);
                 const blob = new Blob([dataStr], { type: "application/json" });
@@ -525,7 +527,6 @@
                 URL.revokeObjectURL(url);
             };
 
-            // HÀM MỞ FILE BÁO GIÁ TỪ MÁY
             const handleImportQuote = (e) => {
                 const file = e.target.files[0];
                 if (!file) return;
@@ -543,7 +544,7 @@
                     }
                 };
                 reader.readAsText(file);
-                e.target.value = null; // Reset input để có thể load lại file cùng tên
+                e.target.value = null; 
             };
 
             const handleFileUpload = (e, callback) => { const file = e.target.files[0]; if (file) { const reader = new FileReader(); reader.onloadend = () => callback(reader.result); reader.readAsDataURL(file); } };
@@ -565,7 +566,6 @@
                 let discount = data.financials.discountType === 'percent' ? (subtotal * data.financials.discountValue) / 100 : data.financials.discountValue;
                 let install = data.financials.installationType === 'percent' ? (subtotal * data.financials.installationValue) / 100 : data.financials.installationValue;
                 
-                // Nếu tắt checkbox thì không tính tiền
                 if (data.financials.showDiscount === false) discount = 0;
                 if (data.financials.showInstall === false) install = 0;
 
@@ -586,7 +586,6 @@
                 return <input value={value} onChange={onChange} className={`bg-sky-50/30 hover:bg-sky-50 focus:bg-white focus:ring-1 ring-sky-300 outline-none w-full transition-colors ${className}`} placeholder={placeholder} style={style} />;
             };
 
-            // Lấy các giá trị hiển thị (fallback true nếu chưa có trong data cũ)
             const showHeader = data.settings?.showHeader ?? true;
             const showPrices = data.settings?.showPrices ?? true;
             const showFinancials = data.settings?.showFinancials ?? true;
@@ -601,7 +600,6 @@
             const showService1 = data.serviceInfo?.show1 ?? true;
             const showService2 = data.serviceInfo?.show2 ?? true;
 
-            // Xử lý tiêu đề bảng thông minh theo ngôn ngữ
             const baseHeaders = [
                 {label: t.stt, cls: "w-8 md:w-10"},
                 {label: t.image, cls: "w-16 md:w-24"},
@@ -620,7 +618,6 @@
                 <div className="min-h-screen px-2 py-4 md:p-4 pb-24 bg-gray-100">
                     <ProductManager isOpen={showProductManager} onClose={() => setShowProductManager(false)} dbProducts={dbProducts} onReload={reloadProducts} />
 
-                    {/* Toolbar thông minh tự gập trên mobile */}
                     <div className="fixed-toolbar fixed top-0 left-0 right-0 bg-white shadow-md z-50 p-2 md:p-3 flex flex-col lg:flex-row items-center justify-between border-b border-sky-200 gap-2 overflow-x-auto hide-scrollbar">
                         <div className="flex flex-wrap items-center gap-2 md:gap-4 w-full lg:w-auto justify-center lg:justify-start">
                             <div className="font-bold text-sky-600 text-sm md:text-lg flex items-center gap-1 md:gap-2 whitespace-nowrap"><Icons.Database /> Báo Giá Mượt Mà</div>
@@ -628,18 +625,15 @@
                         </div>
                         <div className="flex flex-wrap justify-center gap-2 w-full lg:w-auto">
                             
-                            {/* NÚT CHUYỂN NGÔN NGỮ */}
                             <button onClick={() => setLang(lang === 'vi' ? 'en' : 'vi')} className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 bg-amber-500 hover:bg-amber-600 text-white rounded shadow-sm font-bold text-xs md:text-sm transition-colors">
                                 {lang === 'vi' ? '🌐 EN' : '🌐 VI'}
                             </button>
 
-                            {/* NÚT MỞ FILE */}
                             <label className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 bg-teal-600 hover:bg-teal-700 text-white rounded shadow-sm font-medium text-xs md:text-sm cursor-pointer transition-colors">
                                 <Icons.FolderOpen size={14} /> <span className="hidden lg:inline">Mở File</span>
                                 <input type="file" accept=".json" onChange={handleImportQuote} className="hidden" />
                             </label>
                             
-                            {/* NÚT LƯU FILE */}
                             <button onClick={handleExportQuote} className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow-sm font-medium text-xs md:text-sm transition-colors">
                                 <Icons.Download size={14} /> <span className="hidden lg:inline">Lưu File</span>
                             </button>
@@ -652,11 +646,9 @@
                         </div>
                     </div>
 
-                    {/* Vùng văn bản tự động co giãn theo thiết bị (responsive container) */}
                     <div className={`mt-28 sm:mt-24 md:mt-24 lg:mt-20 flex justify-center pb-10 print-container w-full`}>
                         <div className="bg-white shadow-lg md:shadow-2xl relative border border-gray-200 w-full max-w-full md:max-w-[297mm] p-3 sm:p-6 md:p-[10mm] min-h-auto md:min-h-[210mm] print-container mx-auto">
                             
-                            {/* HEADER KHỐI LOGO (CÓ DẤU TÍCH ẨN/HIỆN) */}
                             {(showHeader || !isPreviewMode) && (
                                 <div className={`relative group/header ${!showHeader && !isPreviewMode ? 'opacity-30' : ''}`}>
                                     {!isPreviewMode && (
@@ -701,7 +693,6 @@
                                 )}
                             </div>
 
-                            {/* Thông tin khách hàng khóa cứng 2 cột khi in */}
                             {(showCustomerInfo || !isPreviewMode) && (
                                 <div className={`relative group/customer ${!showCustomerInfo && !isPreviewMode ? 'opacity-30 mb-6' : 'mb-6'}`}>
                                     {!isPreviewMode && (
@@ -740,7 +731,6 @@
                                 </div>
                             )}
 
-                            {/* TÙY CHỌN ẨN/HIỆN CỘT GIÁ */}
                             {!isPreviewMode && (
                                 <div className="flex justify-end mb-2 ui-control">
                                     <label className="flex items-center gap-2 text-[10px] md:text-xs font-bold text-sky-700 cursor-pointer bg-sky-50 px-2 py-1 rounded border border-sky-200">
@@ -750,7 +740,6 @@
                                 </div>
                             )}
 
-                            {/* Bảng báo giá */}
                             <div className="w-full overflow-x-auto hide-scrollbar mb-4 md:mb-8 pb-10 print:overflow-visible print:pb-0 border border-gray-200 rounded-t-lg print:border-none">
                                 <table className="w-full border-collapse print-table min-w-[500px] md:min-w-full">
                                     <thead>
@@ -781,7 +770,6 @@
                                                     <tr key={p.id} className="group hover:bg-sky-50 border-b border-l border-r border-gray-300 break-inside-avoid">
                                                         <td className="text-center text-gray-500 text-[10px] md:text-[11px] align-top py-2 relative w-8 md:w-10 p-0"><div className="w-full h-full flex items-center justify-center">{pIdx + 1}</div></td>
                                                         
-                                                        {/* KHUNG ẢNH THÔNG MINH */}
                                                         <td className="p-1 align-top w-16 md:w-24">
                                                             <div className={`w-14 h-14 md:w-20 md:h-20 flex justify-center mx-auto ${isPreviewMode ? '' : 'bg-gray-50 border border-gray-100 rounded'} relative group/imgbox`}>
                                                                 <label className="cursor-pointer w-full h-full flex justify-center overflow-hidden items-center relative">
@@ -828,7 +816,6 @@
                                                         <td className="text-center pt-2 align-top w-8 md:w-14">{renderEditable(p.qty, (e) => updateItem(catIdx, pIdx, 'qty', parseInt(e.target.value)||0), "0", "text-center font-bold text-[10px] md:text-[11px]")}</td>
                                                         <td className="text-center pt-2 align-top w-10 md:w-16">{renderEditable(p.unit, (e) => updateItem(catIdx, pIdx, 'unit', e.target.value), "", "text-center text-[10px] md:text-[11px]")}</td>
                                                         
-                                                        {/* HIỂN THỊ GIÁ NẾU CÓ DẤU TÍCH */}
                                                         {showPrices && (
                                                             <React.Fragment>
                                                                 <td className="text-right px-1 md:px-2 font-medium pt-2 align-top w-20 md:w-28">{renderEditable(formatCurrency(p.price), (e) => updateItem(catIdx, pIdx, 'price', parseInt(e.target.value.replace(/[^0-9]/g,''))||0), "0", "text-right text-[10px] md:text-[11px]")}</td>
@@ -847,15 +834,11 @@
                             
                             {!isPreviewMode && <div className="ui-control mt-2 mb-6 text-center"><button onClick={addCategory} className="border border-dashed border-sky-400 text-sky-600 px-4 py-2 rounded text-xs md:text-sm hover:bg-sky-50 shadow-sm w-full md:w-auto"><Icons.Plus size={14} className="inline mr-1"/> {t.addCategory}</button></div>}
                             
-                            {/* FOOTER: Ép cứng form dọc nằm ngang khi IN */}
                             <div className={`flex break-inside-avoid border-t border-gray-200 ${isPreviewMode ? 'flex-row mt-4 pt-4 gap-8' : 'flex-col md:flex-row mt-4 pt-4 gap-6 md:gap-8'}`}>
-                                {/* Cột Điều khoản & Thanh toán */}
                                 <div className={`w-full flex text-gray-600 ${isPreviewMode ? 'w-1/2 flex-col gap-4 text-xs order-1' : 'md:w-1/2 flex-col sm:flex-row md:flex-col lg:flex-row gap-4 text-[10px] md:text-xs order-2 md:order-1 print:order-1'}`}>
                                     
-                                    {/* Khối Phí lắp đặt & Dịch vụ */}
                                     <div className={`flex-1 relative group rounded-lg ${isPreviewMode ? 'bg-transparent p-0' : 'bg-gray-50 md:bg-transparent p-3 md:p-0'}`}>
                                         
-                                        {/* Phần 1: Phí lắp đặt */}
                                         {(showService1 || !isPreviewMode) && (
                                             <div className={`relative mb-4 ${!showService1 && !isPreviewMode ? 'opacity-40' : ''}`}>
                                                 {!isPreviewMode && (
@@ -876,7 +859,6 @@
                                             </div>
                                         )}
 
-                                        {/* Phần 2: Phí dịch vụ */}
                                         {(showService2 || !isPreviewMode) && (
                                             <div className={`relative ${!showService2 && !isPreviewMode ? 'opacity-40' : ''}`}>
                                                 {!isPreviewMode && (
@@ -898,7 +880,6 @@
                                         )}
                                     </div>
 
-                                    {/* Khối Thông tin thanh toán */}
                                     <div className={`flex-1 relative group rounded-lg ${isPreviewMode ? 'mt-4 bg-transparent p-0' : 'mt-4 sm:mt-0 md:mt-4 lg:mt-0 bg-gray-50 md:bg-transparent p-3 md:p-0'}`}>
                                         {!isPreviewMode && (
                                             <div className="absolute right-2 md:-left-6 top-2 md:top-0 ui-control flex items-center bg-white md:bg-transparent p-1 rounded border md:border-none shadow-sm md:shadow-none z-10">
@@ -913,7 +894,7 @@
                                         )}
                                         {((data.paymentInfo?.show) || !isPreviewMode) && (
                                             <div className={(!data.paymentInfo?.show && !isPreviewMode) ? 'opacity-40' : ''}>
-                                                <h3 className={`font-bold text-sky-700 mb-1 ${isPreviewMode ? 'pr-0' : 'pr-6 md:pr-0'}`}>THÔNG TIN THANH TOÁN:</h3>
+                                                <h3 className={`font-bold text-sky-700 mb-1 ${isPreviewMode ? 'pr-0' : 'pr-6 md:pr-0'}`}>{t.hidePaymentMsg.includes('Hidden') ? 'PAYMENT INFORMATION:' : 'THÔNG TIN THANH TOÁN:'}</h3>
                                                 <div className="space-y-1">
                                                     <p className="font-bold text-black">{renderEditable(data.paymentInfo?.title || "Tài khoản cá nhân:", (e) => setData({...data, paymentInfo: {...data.paymentInfo, title: e.target.value}}), "Tiêu đề", "font-bold text-black w-full bg-transparent")}</p>
                                                     <p>{renderEditable(data.paymentInfo?.stk || "STK: ...", (e) => setData({...data, paymentInfo: {...data.paymentInfo, stk: e.target.value}}), "Số tài khoản", "w-full bg-transparent")}</p>
@@ -925,7 +906,6 @@
                                     </div>
                                 </div>
                                 
-                                {/* Cột Tổng tiền (CÓ DẤU TÍCH ẨN/HIỆN) */}
                                 <div className={`w-full rounded-lg ${isPreviewMode ? 'w-1/2 pl-12 order-2 bg-transparent p-0' : 'md:w-1/2 md:pl-8 lg:pl-12 order-1 md:order-2 print:order-2 bg-sky-50 md:bg-transparent p-4 md:p-0 relative group'}`}>
                                     {!isPreviewMode && (
                                         <div className="absolute right-2 md:-left-6 top-2 md:top-0 ui-control flex items-center bg-white md:bg-transparent p-1 rounded border md:border-none shadow-sm md:shadow-none z-10">
@@ -992,7 +972,6 @@
                                 </div>
                             </div>
 
-                            {/* CHỮ KÝ XÁC NHẬN */}
                             {(showSignatures || !isPreviewMode) && (
                                 <div className={`mt-10 pt-4 flex justify-between px-4 sm:px-10 md:px-20 relative group/sigs break-inside-avoid ${!showSignatures && !isPreviewMode ? 'opacity-30' : ''}`}>
                                     {!isPreviewMode && (
@@ -1009,7 +988,6 @@
                                 </div>
                             )}
 
-                            {/* CÂU CHỐT BÁO GIÁ Ở ĐÁY - CÓ THỂ SỬA XÓA TÙY Ý */}
                             <div className="text-center text-[9px] md:text-[10px] text-gray-400 mt-12 md:mt-16 italic border-t border-gray-100 pt-3 break-inside-avoid">
                                 {renderEditable(data.footerNote !== undefined ? data.footerNote : "Báo giá có giá trị 2 tuần - Aqara Smarthome", (e) => setData({...data, footerNote: e.target.value}), "Ghi chú chân trang (Xóa sạch nếu muốn ẩn)...", "text-center w-full bg-transparent")}
                             </div>
