@@ -14,6 +14,10 @@
     <script src="https://unpkg.com/@babel/standalone@7.23.10/babel.min.js"></script>
 
     <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+    
+    <!-- THƯ VIỆN XUẤT EXCEL CAO CẤP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400&display=swap');
@@ -32,10 +36,8 @@
         .hide-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
         @media print {
-            @page { size: A4 landscape; margin: 0; }
             body { background-color: white; margin: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
             .no-print, .ui-control, .fixed-toolbar, .modal-overlay, .toast-noti, .suggestions-list, .delete-col { display: none !important; }
-            .print-container { width: 297mm !important; max-width: 297mm !important; margin: 0 !important; padding: 10mm !important; box-shadow: none !important; border: none !important; zoom: 100%; overflow: visible !important; }
             .hide-scrollbar { overflow-x: visible !important; }
             .print-table { min-width: 100% !important; }
             table { page-break-inside: auto; border-collapse: collapse; width: 100%; }
@@ -64,10 +66,11 @@
             Upload: ({size=16, className=""}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>,
             RefreshCcw: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 2v6h6"/><path d="M21 12A9 9 0 0 0 6 5.3L3 8"/><path d="M21 22v-6h-6"/><path d="M3 12a9 9 0 0 0 15 6.7l3-2.7"/></svg>,
             Edit: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>,
-            Eye: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8-11-8-11-8-11-8-11-8-11-8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>,
+            Eye: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8-11-8-11-8-11-8-11-8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>,
             Settings: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>,
             Download: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>,
-            FolderOpen: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            FolderOpen: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>,
+            FileSpreadsheet: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13h2"/><path d="M8 17h2"/><path d="M14 13h2"/><path d="M14 17h2"/></svg>
         };
 
         // --- LOCAL DATABASE HELPER ---
@@ -78,7 +81,6 @@
                     const data = localStorage.getItem(DB_KEY);
                     return data ? JSON.parse(data) : [];
                 } catch (e) {
-                    console.error("Lỗi đọc dữ liệu máy:", e);
                     return [];
                 }
             },
@@ -88,7 +90,6 @@
                     localStorage.setItem(DB_KEY, JSON.stringify(validProducts));
                     return true;
                 } catch (e) {
-                    console.error("Lỗi lưu dữ liệu máy:", e);
                     alert("Không thể lưu dữ liệu. Có thể bộ nhớ trình duyệt đã đầy!");
                     return false;
                 }
@@ -125,7 +126,7 @@
                 price: "Unit Price", total: "Amount", delete: "Del",
                 subtotal: "Subtotal:", discount: "Discount:", amountType: "Amount", percentType: "%",
                 afterDiscount: "After Discount:", installFee: "Installation:",
-                grandTotal: "Grand Total", currency: "VND", currencyShort: "₫",
+                grandTotal: "Grand Total", currency: "USD", currencyShort: "$",
                 addCategory: "Add New Category",
                 hideHeaderMsg: "Header hidden during print.",
                 hideCustomerMsg: "Customer info hidden during print.",
@@ -234,7 +235,7 @@
                                 Hang: String(item[brandKey] || '').trim(),
                                 BaoHanh: String(item[warKey] || '18').trim(),
                                 DVT: String(item[unitKey] || 'Cái').trim(),
-                                Gia: parsedPrice
+                                Gia: parsedPrice // Luôn lưu giá bằng VNĐ gốc
                             };
                         }).filter(i => i !== null);
 
@@ -352,7 +353,7 @@
                                         <th className="border-b p-2 md:p-3 text-left w-10 text-gray-600">#</th>
                                         <th className="border-b border-l p-2 md:p-3 text-left w-24 text-gray-600" title="Đặt mã SP để tool tự động gọi ảnh trên GitHub">Mã SP</th>
                                         <th className="border-b border-l p-2 md:p-3 text-left text-gray-600">Tên Sản Phẩm</th>
-                                        <th className="border-b border-l p-2 md:p-3 text-left w-32 text-gray-600">Giá Bán</th>
+                                        <th className="border-b border-l p-2 md:p-3 text-left w-32 text-gray-600">Giá Bán (VNĐ)</th>
                                         <th className="border-b border-l p-2 md:p-3 text-left w-20 text-gray-600">ĐVT</th>
                                         <th className="border-b border-l p-2 md:p-3 text-left w-28 text-gray-600">Hãng</th>
                                         <th className="border-b border-l p-2 md:p-3 text-left w-16 text-gray-600">BH(T)</th>
@@ -432,7 +433,7 @@
             );
         };
 
-        const ProductAutocomplete = ({ value, onChange, onSelectProduct, dbProducts, isPreviewMode, placeholder, className, style }) => {
+        const ProductAutocomplete = ({ value, onChange, onSelectProduct, dbProducts, isPreviewMode, placeholder, className, style, formatCurrency }) => {
             const [suggestions, setSuggestions] = useState([]);
             const [showSuggestions, setShowSuggestions] = useState(false);
             const wrapperRef = useRef(null);
@@ -474,7 +475,7 @@
                                     </div>
                                     <div className="text-gray-500 flex justify-between mt-1 text-[10px] md:text-xs">
                                         <span className="bg-gray-100 px-1 rounded font-medium">{item.Hang || 'N/A'}</span>
-                                        <span className="suggestion-price text-sky-600">{new Intl.NumberFormat('vi-VN').format(item.Gia || 0)} đ</span>
+                                        <span className="suggestion-price text-sky-600">{formatCurrency(item.Gia || 0)}</span>
                                     </div>
                                 </div>
                             ))}
@@ -484,28 +485,50 @@
             );
         };
 
+        // Hàm hỗ trợ tải ảnh URL thành base64 (Dùng cho Excel)
+        const getBase64FromUrl = async (url) => {
+            try {
+                const data = await fetch(url);
+                const blob = await data.blob();
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(blob);
+                    reader.onloadend = () => { resolve(reader.result); }
+                });
+            } catch(e) { return null; }
+        };
+
         // --- MAIN APP ---
         const QuoteTool = () => {
             const [isPreviewMode, setIsPreviewMode] = useState(false);
-            const [lang, setLang] = useState('vi'); 
             const [dbProducts, setDbProducts] = useState([]);
             const [showProductManager, setShowProductManager] = useState(false);
+            const [exportingExcel, setExportingExcel] = useState(false);
+            
+            // Cài đặt chung của Tool (Ngôn ngữ, Tiền tệ, Khổ in)
+            const [appConfig, setAppConfig] = useState({
+                lang: 'vi',
+                currency: 'VND',
+                exchangeRate: 25400, // Tỉ giá mặc định 1 USD = 25,400 VNĐ
+                printOrientation: 'portrait'
+            });
+
             const [data, setData] = useState({
                 fileName: "Báo giá mới",
                 projectTitle: "BÁO GIÁ_Smart Home",
-                companyInfo: { logo: null, name: "Otiz Smarthome", subName: "Giải pháp chiếu sáng chuyên nghiệp và thông minh toàn diện", address: "otizsmarthome@gmail.com", website: "otizsmarthome.io.vn", hotline: "0363035960" },
-                customerInfo: { companyName: "Anh/Chị ...", mst: "...", address: "...", contactName: "Công Ty ...", phone: "09...", quoteDate: new Date().toISOString().split('T')[0] },
+                companyInfo: { logo: null, name: "Aqara Smarthome", subName: "Giải pháp chiếu sáng chuyên nghiệp và thông minh toàn diện", address: "truongdino4@gmail.com", website: "Trường Otiz", hotline: "0363035960" },
+                customerInfo: { companyName: "CÔNG TY TNHH TƯ VẤN THIẾT KẾ VÀ XÂY DỰNG NGUYÊN KHÁNH", mst: "316419615", address: "L18-11-13, Tầng 18, Tòa nhà Vincom Center Đồng Khởi, 72 Lê Thánh Tôn, P. Bến Nghé, Q.1, TP.HCM", contactName: "Anh Khánh", phone: "0911981618", quoteDate: new Date().toISOString().split('T')[0] },
                 items: [{ id: 1, title: "(I) BỘ ĐIỀU KHIỂN TRUNG TÂM + ĐIỀU HÒA", products: [{ id: 101, MaSP: "", name: "Bộ điều khiển trung tâm Camera Hub G3", description: "", image: null, brand: "AQARA", warranty: 18, qty: 1, unit: "Bộ", price: 3299000 }] }],
                 financials: { discountType: 'amount', discountValue: 0, installationType: 'amount', installationValue: 11000000, showDiscount: true, showInstall: true },
-                paymentInfo: { show: false, title: "Tài khoản cá nhân:", stk: "STK: 0363035960 - Ngân hàng MB Bank", ctk: "CTK: Châu Lê Nhật Trường" },
-                serviceInfo: { show1: true, show2: true, title1: "(1) Phí lắp đặt bao gồm:", desc1: "- Thi công phần cứng toàn bộ hệ thống Smarthome.\n- Không bao gồm chi phí kéo dây điện, đục tường.", title2: "(2) Phí dịch vụ bao gồm:", desc2: "- Bảo hành tận nơi 30 ngày và bảo hành từ xa theo thời gian bảo hành sản phẩm.\n- Kết nối toàn bộ hệ thống.\n- Thiết kế hệ thống, Cấu hình tự động hóa.\n- Chia phòng, đặt tên thiết bị, cấu hình tự động.\n- Hướng dẫn khách hàng thao tác sử dụng." },
+                paymentInfo: { show: false, title: "Tài khoản cá nhân:", stk: "STK: ... - Ngân hàng", ctk: "CTK: Trường Otiz" },
+                serviceInfo: { show1: true, show2: true, title1: "(1) Phí lắp đặt bao gồm:", desc1: "- Thi công phần cứng toàn bộ hệ thống Smarthome.\n- Không bao gồm chi phí kéo dây điện, đục tường.", title2: "(2) Phí dịch vụ bao gồm:", desc2: "- Bảo hành tận nơi theo thời gian bảo hành sản phẩm.\n- Kết nối toàn bộ hệ thống.\n- Thiết kế hệ thống, Cấu hình tự động hóa.\n- Chia phòng, đặt tên thiết bị, cấu hình tự động.\n- Hướng dẫn khách hàng thao tác sử dụng." },
                 settings: { showHeader: true, showPrices: true, showFinancials: true, showSignatures: true, showDate: true, showCustomerInfo: true, showGreeting: true },
-                greetingNote: "Otiz Smarthome xin chân thành cảm ơn Quý Khách đã quan tâm đến sản phẩm của chúng tôi, phúc đáp theo yêu cầu của Quý Khách chúng tôi xin gửi bảng báo giá như sau:",
-                footerNote: "Báo giá có giá trị 2 tuần - Otiz Smarthome",
+                greetingNote: "Aqara Smarthome xin chân thành cảm ơn Quý Khách đã quan tâm đến sản phẩm của chúng tôi, phúc đáp theo yêu cầu của Quý Khách chúng tôi xin gửi bảng báo giá như sau:",
+                footerNote: "Báo giá có giá trị 2 tuần - Aqara Smarthome",
                 signatures: { partyA: "ĐẠI DIỆN KHÁCH HÀNG\n(Ký và ghi rõ họ tên)", partyB: "ĐẠI DIỆN BÊN BÁN\n(Ký và ghi rõ họ tên)" }
             });
 
-            const t = i18n[lang]; 
+            const t = i18n[appConfig.lang]; 
 
             const reloadProducts = () => {
                 const prods = localDbHelper.getProducts();
@@ -535,6 +558,8 @@
                     try {
                         const parsedData = JSON.parse(evt.target.result);
                         if (parsedData && parsedData.items && parsedData.companyInfo) {
+                            // TỰ ĐỘNG ÉP NGÀY BÁO GIÁ VỀ NGÀY HIỆN TẠI KHI MỞ FILE CŨ
+                            parsedData.customerInfo.quoteDate = new Date().toISOString().split('T')[0];
                             setData(parsedData);
                         } else {
                             alert("File không đúng định dạng báo giá!");
@@ -545,6 +570,236 @@
                 };
                 reader.readAsText(file);
                 e.target.value = null; 
+            };
+
+            // HÀM XUẤT EXCEL CHUYÊN NGHIỆP
+            const handleExportExcel = async () => {
+                setExportingExcel(true);
+                try {
+                    const ExcelJS = window.ExcelJS;
+                    if (!ExcelJS) { alert("Thư viện Excel chưa được tải xong, vui lòng thử lại sau vài giây."); return; }
+                    
+                    const workbook = new ExcelJS.Workbook();
+                    const sheet = workbook.addWorksheet('Báo Giá', {
+                        pageSetup: { paperSize: 9, orientation: appConfig.printOrientation } 
+                    });
+
+                    // Cột độ rộng chuẩn
+                    sheet.columns = [
+                        { width: 6 },  // A: STT
+                        { width: 14 }, // B: Hình ảnh
+                        { width: 45 }, // C: Tên / Mô tả
+                        { width: 12 }, // D: Hãng
+                        { width: 8 },  // E: BH
+                        { width: 8 },  // F: SL
+                        { width: 10 }, // G: ĐVT
+                        { width: 15 }, // H: Đơn giá
+                        { width: 18 }  // I: Thành tiền
+                    ];
+
+                    let currentRow = 1;
+
+                    // Header
+                    if (data.settings?.showHeader !== false) {
+                        sheet.mergeCells(`C${currentRow}:I${currentRow}`);
+                        sheet.getCell(`C${currentRow}`).value = data.companyInfo.name;
+                        sheet.getCell(`C${currentRow}`).font = { bold: true, size: 16 };
+                        sheet.getCell(`C${currentRow}`).alignment = { vertical: 'middle', horizontal: 'left' };
+                        currentRow++;
+
+                        sheet.mergeCells(`C${currentRow}:I${currentRow}`);
+                        sheet.getCell(`C${currentRow}`).value = data.companyInfo.subName;
+                        sheet.getCell(`C${currentRow}`).font = { italic: true, size: 10, color: { argb: 'FF666666' } };
+                        currentRow++;
+
+                        if (data.companyInfo.logo) {
+                            try {
+                                const logoId = workbook.addImage({ base64: data.companyInfo.logo, extension: 'png' });
+                                sheet.mergeCells('A1:B4');
+                                sheet.addImage(logoId, 'A1:B4');
+                            } catch(e) {}
+                        }
+                        
+                        sheet.mergeCells(`C${currentRow}:I${currentRow}`);
+                        sheet.getCell(`C${currentRow}`).value = `Email: ${data.companyInfo.address} | Web: ${data.companyInfo.website} | Hotline: ${data.companyInfo.hotline}`;
+                        sheet.getCell(`C${currentRow}`).font = { size: 10 };
+                        currentRow += 2; 
+                    }
+
+                    // Title
+                    sheet.mergeCells(`A${currentRow}:I${currentRow}`);
+                    const titleCell = sheet.getCell(`A${currentRow}`);
+                    titleCell.value = data.projectTitle;
+                    titleCell.font = { bold: true, size: 18, color: { argb: 'FF0284C7' } }; 
+                    titleCell.alignment = { vertical: 'middle', horizontal: 'center' };
+                    currentRow += 2;
+
+                    // Info Khách hàng
+                    if (data.settings?.showCustomerInfo !== false) {
+                        sheet.mergeCells(`A${currentRow}:E${currentRow}`);
+                        sheet.getCell(`A${currentRow}`).value = `Khách hàng: ${data.customerInfo.companyName}`;
+                        sheet.mergeCells(`F${currentRow}:I${currentRow}`);
+                        sheet.getCell(`F${currentRow}`).value = `Ngày báo giá: ${new Date(data.customerInfo.quoteDate).toLocaleDateString('vi-VN')}`;
+                        sheet.getCell(`F${currentRow}`).alignment = { horizontal: 'right' };
+                        currentRow++;
+
+                        sheet.mergeCells(`A${currentRow}:E${currentRow}`);
+                        sheet.getCell(`A${currentRow}`).value = `Địa chỉ: ${data.customerInfo.address}`;
+                        sheet.mergeCells(`F${currentRow}:I${currentRow}`);
+                        sheet.getCell(`F${currentRow}`).value = `Liên hệ: ${data.customerInfo.contactName} - SĐT: ${data.customerInfo.phone}`;
+                        sheet.getCell(`F${currentRow}`).alignment = { horizontal: 'right' };
+                        currentRow += 2;
+                    }
+
+                    // Table Headers
+                    const headerRow = sheet.getRow(currentRow);
+                    const headers = ["STT", "Hình ảnh", "Tên thiết bị / Mô tả tính năng", "Hãng", "BH(T)", "SL", "ĐVT", "Đơn giá", "Thành tiền"];
+                    headers.forEach((h, i) => {
+                        const cell = headerRow.getCell(i + 1);
+                        cell.value = h;
+                        cell.font = { bold: true, color: { argb: 'FFFFFFFF' } }; 
+                        cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF0284C7' } }; 
+                        cell.alignment = { vertical: 'middle', horizontal: 'center' };
+                        cell.border = { top: {style:'thin'}, left: {style:'thin'}, bottom: {style:'thin'}, right: {style:'thin'} };
+                    });
+                    currentRow++;
+
+                    // Chuyển đổi tiền tệ cho Excel
+                    const rate = appConfig.currency === 'USD' ? appConfig.exchangeRate : 1;
+                    const numFormat = appConfig.currency === 'USD' ? '$#,##0.00' : '#,##0';
+
+                    // Data Hàng hóa
+                    for (const cat of data.items) {
+                        sheet.mergeCells(`A${currentRow}:I${currentRow}`);
+                        const catCell = sheet.getCell(`A${currentRow}`);
+                        catCell.value = cat.title;
+                        catCell.font = { bold: true, color: { argb: 'FF075985' } }; 
+                        catCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFE0F2FE' } }; 
+                        catCell.border = { top: {style:'thin'}, left: {style:'thin'}, bottom: {style:'thin'}, right: {style:'thin'} };
+                        currentRow++;
+
+                        for (let pIdx = 0; pIdx < cat.products.length; pIdx++) {
+                            const p = cat.products[pIdx];
+                            const row = sheet.getRow(currentRow);
+                            row.height = 75; // Kéo cao dòng để hình ảnh hiển thị vuông vắn 70x70
+
+                            row.getCell(1).value = pIdx + 1;
+                            row.getCell(1).alignment = { vertical: 'middle', horizontal: 'center' };
+                            
+                            row.getCell(3).value = p.name + (p.description ? `\n${p.description}` : '');
+                            row.getCell(3).alignment = { vertical: 'middle', wrapText: true };
+                            
+                            row.getCell(4).value = p.brand;
+                            row.getCell(4).alignment = { vertical: 'middle', horizontal: 'center' };
+                            row.getCell(5).value = p.warranty;
+                            row.getCell(5).alignment = { vertical: 'middle', horizontal: 'center' };
+                            row.getCell(6).value = p.qty;
+                            row.getCell(6).alignment = { vertical: 'middle', horizontal: 'center' };
+                            row.getCell(7).value = p.unit;
+                            row.getCell(7).alignment = { vertical: 'middle', horizontal: 'center' };
+                            
+                            if (data.settings?.showPrices !== false) {
+                                row.getCell(8).value = p.price / rate;
+                                row.getCell(8).numFmt = numFormat;
+                                row.getCell(9).value = (p.qty * p.price) / rate;
+                                row.getCell(9).numFmt = numFormat;
+                            }
+
+                            for(let i=1; i<=9; i++) row.getCell(i).border = { top: {style:'thin'}, left: {style:'thin'}, bottom: {style:'thin'}, right: {style:'thin'} };
+
+                            // CHÈN ẢNH VỚI KÍCH THƯỚC TUYỆT ĐỐI (Tránh méo ảnh)
+                            const addImageToExcel = (base64Data) => {
+                                try {
+                                    const imgId = workbook.addImage({ base64: base64Data, extension: 'jpeg' });
+                                    sheet.addImage(imgId, {
+                                        tl: { col: 1.15, row: currentRow - 1 + 0.1 }, // Col B = 1. Add offset. Row is 0-indexed here
+                                        ext: { width: 70, height: 70 }, // Neo cứng kích thước 70x70 pixel
+                                        editAs: 'oneCell' // Không cho ảnh chạy lung tung khi đổi size cột
+                                    });
+                                } catch(e) { console.log(e); }
+                            };
+
+                            if (p.image) {
+                                addImageToExcel(p.image);
+                            } else if (p.MaSP) {
+                                // Tự mò ảnh từ GitHub qua URL
+                                const urlFormats = ['.jpg', '.png', '.jpeg', '.JPG', '.PNG'];
+                                for (let ext of urlFormats) {
+                                    const base64 = await getBase64FromUrl(`./images/${p.MaSP.trim()}${ext}`);
+                                    if(base64) {
+                                        addImageToExcel(base64);
+                                        break; // Tìm thấy thì thoát vòng lặp
+                                    }
+                                }
+                            }
+                            currentRow++;
+                        }
+                    }
+
+                    // Totals
+                    currentRow += 1;
+                    if (data.settings?.showFinancials !== false && data.settings?.showPrices !== false) {
+                        const totals = calculateTotal();
+                        sheet.mergeCells(`G${currentRow}:H${currentRow}`);
+                        sheet.getCell(`G${currentRow}`).value = t.subtotal;
+                        sheet.getCell(`G${currentRow}`).font = { bold: true };
+                        sheet.getCell(`I${currentRow}`).value = totals.subtotal / rate;
+                        sheet.getCell(`I${currentRow}`).numFmt = numFormat;
+                        currentRow++;
+
+                        if (data.financials?.showDiscount !== false) {
+                            sheet.mergeCells(`G${currentRow}:H${currentRow}`);
+                            sheet.getCell(`G${currentRow}`).value = `${data.financials.discountLabel || t.discount} (${data.financials.discountType === 'percent' ? data.financials.discountValue + '%' : 'Tiền'}):`;
+                            sheet.getCell(`I${currentRow}`).value = -(totals.discount / rate);
+                            sheet.getCell(`I${currentRow}`).numFmt = numFormat;
+                            sheet.getCell(`I${currentRow}`).font = { color: { argb: 'FFFF0000' } }; 
+                            currentRow++;
+                        }
+
+                        if (data.financials?.showInstall !== false) {
+                            sheet.mergeCells(`G${currentRow}:H${currentRow}`);
+                            sheet.getCell(`G${currentRow}`).value = `${data.financials.installLabel || t.installFee} (${data.financials.installationType === 'percent' ? data.financials.installationValue + '%' : 'Tiền'}):`;
+                            sheet.getCell(`I${currentRow}`).value = totals.install / rate;
+                            sheet.getCell(`I${currentRow}`).numFmt = numFormat;
+                            currentRow++;
+                        }
+
+                        sheet.mergeCells(`G${currentRow}:H${currentRow}`);
+                        sheet.getCell(`G${currentRow}`).value = t.grandTotal;
+                        sheet.getCell(`G${currentRow}`).font = { bold: true, size: 14, color: { argb: 'FFFFFFFF' } };
+                        sheet.getCell(`G${currentRow}`).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF0284C7' } };
+                        sheet.getCell(`G${currentRow}`).alignment = { vertical: 'middle', horizontal: 'right' };
+                        
+                        sheet.getCell(`I${currentRow}`).value = totals.total / rate;
+                        sheet.getCell(`I${currentRow}`).font = { bold: true, size: 14, color: { argb: 'FFFFFFFF' } };
+                        sheet.getCell(`I${currentRow}`).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF0284C7' } };
+                        sheet.getCell(`I${currentRow}`).numFmt = numFormat;
+                        currentRow += 3; 
+                    }
+
+                    // Signatures
+                    if (data.settings?.showSignatures !== false) {
+                        sheet.mergeCells(`B${currentRow}:D${currentRow}`);
+                        sheet.getCell(`B${currentRow}`).value = data.signatures?.partyA || "ĐẠI DIỆN KHÁCH HÀNG\n(Ký và ghi rõ họ tên)";
+                        sheet.getCell(`B${currentRow}`).alignment = { wrapText: true, horizontal: 'center' };
+                        sheet.getCell(`B${currentRow}`).font = { bold: true };
+
+                        sheet.mergeCells(`G${currentRow}:I${currentRow}`);
+                        sheet.getCell(`G${currentRow}`).value = data.signatures?.partyB || "ĐẠI DIỆN BÊN BÁN\n(Ký và ghi rõ họ tên)";
+                        sheet.getCell(`G${currentRow}`).alignment = { wrapText: true, horizontal: 'center' };
+                        sheet.getCell(`G${currentRow}`).font = { bold: true };
+                    }
+
+                    const buffer = await workbook.xlsx.writeBuffer();
+                    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                    window.saveAs(blob, `${data.fileName || 'BaoGia'}.xlsx`);
+
+                } catch (e) {
+                    console.error("Lỗi tạo Excel:", e);
+                    alert("Lỗi xuất Excel: Không thể tạo file. Chi tiết: " + e.message);
+                } finally {
+                    setExportingExcel(false);
+                }
             };
 
             const handleFileUpload = (e, callback) => { const file = e.target.files[0]; if (file) { const reader = new FileReader(); reader.onloadend = () => callback(reader.result); reader.readAsDataURL(file); } };
@@ -571,8 +826,24 @@
 
                 return { subtotal, discount, install, total: (subtotal - discount) + install };
             };
+
             const totals = calculateTotal();
-            const formatCurrency = (amt) => new Intl.NumberFormat(lang === 'vi' ? 'vi-VN' : 'en-US').format(Math.round(amt));
+
+            // HÀM CHUYỂN ĐỔI TIỀN TỆ (VND <-> USD) THÔNG MINH
+            const formatCurrency = (amt, isEditing = false) => {
+                // Nếu đang gõ sửa giá (input), phải giữ nguyên số VND gốc để không bị loạn số thập phân
+                if (isEditing) return Math.round(amt); 
+                
+                const rate = appConfig.currency === 'USD' ? appConfig.exchangeRate : 1;
+                const converted = amt / rate;
+
+                if (appConfig.currency === 'USD') {
+                    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(converted);
+                }
+                // Mặc định VND
+                return new Intl.NumberFormat(appConfig.lang === 'vi' ? 'vi-VN' : 'en-US').format(Math.round(converted));
+            };
+
             const handlePrint = () => { if (!isPreviewMode) { setIsPreviewMode(true); setTimeout(() => { document.title = data.fileName; window.print(); }, 500); } else { document.title = data.fileName; window.print(); } };
             const updateItem = (catIdx, prodIdx, field, val) => { const newData = {...data}; newData.items[catIdx].products[prodIdx][field] = val; setData(newData); };
             const addCategory = () => { const newData = {...data}; newData.items.push({ id: Date.now(), title: "(...) HẠNG MỤC MỚI", products: [] }); setData(newData); };
@@ -616,39 +887,108 @@
 
             return (
                 <div className="min-h-screen px-2 py-4 md:p-4 pb-24 bg-gray-100">
+                    
+                    {/* KHỐI CSS ÉP KHỔ GIẤY IN THEO LỰA CHỌN */}
+                    <style dangerouslySetInnerHTML={{__html: `
+                        @media print {
+                            @page { size: A4 ${appConfig.printOrientation}; margin: 0; }
+                            .print-container { 
+                                width: ${appConfig.printOrientation === 'landscape' ? '297mm' : '210mm'} !important; 
+                                max-width: ${appConfig.printOrientation === 'landscape' ? '297mm' : '210mm'} !important; 
+                            }
+                        }
+                    `}} />
+
                     <ProductManager isOpen={showProductManager} onClose={() => setShowProductManager(false)} dbProducts={dbProducts} onReload={reloadProducts} />
 
-                    <div className="fixed-toolbar fixed top-0 left-0 right-0 bg-white shadow-md z-50 p-2 md:p-3 flex flex-col lg:flex-row items-center justify-between border-b border-sky-200 gap-2 overflow-x-auto hide-scrollbar">
-                        <div className="flex flex-wrap items-center gap-2 md:gap-4 w-full lg:w-auto justify-center lg:justify-start">
-                            <div className="font-bold text-sky-600 text-sm md:text-lg flex items-center gap-1 md:gap-2 whitespace-nowrap"><Icons.Database /> Báo Giá Mượt Mà</div>
-                            <input value={data.fileName} onChange={(e) => setData({...data, fileName: e.target.value})} className="border-b border-gray-300 focus:border-sky-500 outline-none px-2 py-1 w-full max-w-[180px] sm:max-w-xs md:w-64 bg-transparent text-sm md:text-base text-center sm:text-left" placeholder="Tên file lưu..." />
+                    {/* BẢNG ĐIỀU KHIỂN - CONTROL PANEL */}
+                    <div className="fixed-toolbar fixed top-0 left-0 right-0 bg-white shadow-lg z-50 flex flex-col border-b border-sky-200">
+                        {/* Tầng 1: Công cụ hệ thống (Nền xám nhạt) */}
+                        <div className="flex flex-wrap items-center justify-between p-2 bg-slate-100 border-b border-gray-200 gap-2 text-xs md:text-sm">
+                            <div className="flex items-center gap-3">
+                                {/* Chọn Ngôn ngữ */}
+                                <div className="flex items-center gap-1 font-bold text-gray-600">
+                                    🌐 Ngôn ngữ: 
+                                    <select value={appConfig.lang} onChange={e => setAppConfig({...appConfig, lang: e.target.value})} className="bg-white border border-gray-300 rounded px-2 py-1 outline-none focus:border-sky-500">
+                                        <option value="vi">Tiếng Việt</option>
+                                        <option value="en">English</option>
+                                    </select>
+                                </div>
+
+                                <div className="h-4 w-px bg-gray-300 hidden sm:block"></div>
+
+                                {/* Chọn Tiền Tệ & Tỉ giá */}
+                                <div className="flex items-center gap-1 font-bold text-gray-600">
+                                    💵 Tiền tệ: 
+                                    <select value={appConfig.currency} onChange={e => setAppConfig({...appConfig, currency: e.target.value})} className="bg-white border border-gray-300 rounded px-2 py-1 outline-none focus:border-sky-500">
+                                        <option value="VND">VNĐ (₫)</option>
+                                        <option value="USD">USD ($)</option>
+                                    </select>
+                                    {appConfig.currency === 'USD' && (
+                                        <div className="flex items-center ml-2 gap-1 bg-yellow-100 px-2 py-1 rounded border border-yellow-300">
+                                            <span>Tỉ giá: $1 =</span>
+                                            <input type="number" value={appConfig.exchangeRate} onChange={e => setAppConfig({...appConfig, exchangeRate: parseInt(e.target.value)||1})} className="w-16 bg-transparent font-bold outline-none text-right" />
+                                            <span>đ</span>
+                                        </div>
+                                    )}
+                                </div>
+                                
+                                <div className="h-4 w-px bg-gray-300 hidden md:block"></div>
+
+                                {/* Khổ giấy in */}
+                                <div className="flex items-center gap-1 font-bold text-gray-600 hidden md:flex">
+                                    🖨️ Khổ in PDF: 
+                                    <select value={appConfig.printOrientation} onChange={e => setAppConfig({...appConfig, printOrientation: e.target.value})} className="bg-white border border-gray-300 rounded px-2 py-1 outline-none focus:border-sky-500">
+                                        <option value="portrait">Dọc (Portrait)</option>
+                                        <option value="landscape">Ngang (Landscape)</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        <div className="flex flex-wrap justify-center gap-2 w-full lg:w-auto">
-                            
-                            <button onClick={() => setLang(lang === 'vi' ? 'en' : 'vi')} className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 bg-amber-500 hover:bg-amber-600 text-white rounded shadow-sm font-bold text-xs md:text-sm transition-colors">
-                                {lang === 'vi' ? '🌐 EN' : '🌐 VI'}
-                            </button>
 
-                            <label className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 bg-teal-600 hover:bg-teal-700 text-white rounded shadow-sm font-medium text-xs md:text-sm cursor-pointer transition-colors">
-                                <Icons.FolderOpen size={14} /> <span className="hidden lg:inline">Mở File</span>
-                                <input type="file" accept=".json" onChange={handleImportQuote} className="hidden" />
-                            </label>
+                        {/* Tầng 2: Công cụ Thao tác Báo Giá */}
+                        <div className="flex flex-col lg:flex-row items-center justify-between p-2 gap-2 overflow-x-auto hide-scrollbar">
+                            <div className="flex items-center gap-2 md:gap-4 w-full lg:w-auto">
+                                <div className="font-bold text-sky-700 text-sm md:text-lg flex items-center gap-1 whitespace-nowrap"><Icons.Database /> Báo Giá Pro</div>
+                                <input value={data.fileName} onChange={(e) => setData({...data, fileName: e.target.value})} className="border-b-2 border-transparent focus:border-sky-500 outline-none px-2 py-1 w-full max-w-[140px] sm:max-w-xs md:w-64 bg-gray-50 rounded hover:bg-gray-100 font-medium text-sm md:text-base text-sky-900" placeholder="Đặt tên file lưu..." title="Tên file khi Lưu hoặc Xuất Excel" />
+                            </div>
                             
-                            <button onClick={handleExportQuote} className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow-sm font-medium text-xs md:text-sm transition-colors">
-                                <Icons.Download size={14} /> <span className="hidden lg:inline">Lưu File</span>
-                            </button>
+                            <div className="flex flex-wrap items-center justify-center gap-2 w-full lg:w-auto">
+                                {/* Thao tác File */}
+                                <div className="flex items-center gap-1 bg-gray-100 p-1 rounded-lg border border-gray-200">
+                                    <label className="flex items-center gap-1 px-3 py-1.5 hover:bg-white hover:shadow-sm text-gray-700 rounded cursor-pointer transition-all text-xs md:text-sm font-medium">
+                                        <Icons.FolderOpen size={14} /> Mở File
+                                        <input type="file" accept=".json" onChange={handleImportQuote} className="hidden" />
+                                    </label>
+                                    <div className="w-px h-4 bg-gray-300"></div>
+                                    <button onClick={handleExportQuote} className="flex items-center gap-1 px-3 py-1.5 hover:bg-white hover:shadow-sm text-gray-700 rounded transition-all text-xs md:text-sm font-medium">
+                                        <Icons.Save size={14} /> Lưu Nháp
+                                    </button>
+                                    <div className="w-px h-4 bg-gray-300"></div>
+                                    <button onClick={handleExportExcel} disabled={exportingExcel} className={`flex items-center gap-1 px-3 py-1.5 text-green-700 rounded transition-all text-xs md:text-sm font-bold ${exportingExcel ? 'bg-green-100' : 'hover:bg-green-100 hover:shadow-sm'}`}>
+                                        <Icons.Download size={14} /> {exportingExcel ? 'Đang vẽ Excel...' : 'Xuất Excel'}
+                                    </button>
+                                </div>
 
-                            <button onClick={() => setShowProductManager(true)} className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded shadow-sm font-medium text-xs md:text-sm transition-colors">
-                                <Icons.Settings size={14} /> <span className="hidden lg:inline">Kho Sản Phẩm</span>
-                            </button>
-                            <button onClick={() => setIsPreviewMode(!isPreviewMode)} className={`flex items-center gap-1 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 text-white rounded shadow-sm font-medium transition-colors text-xs md:text-sm ${isPreviewMode ? 'bg-sky-600 hover:bg-sky-700' : 'bg-gray-600 hover:bg-gray-700'}`}>{isPreviewMode ? <><Icons.Edit size={14}/> Sửa</> : <><Icons.Eye size={14}/> Xem</>}</button>
-                            <button onClick={handlePrint} className="bg-sky-600 text-white px-3 md:px-4 py-1.5 md:py-2 rounded shadow hover:bg-sky-700 flex items-center gap-1 md:gap-2 text-xs md:text-sm whitespace-nowrap transition-colors"><Icons.Printer size={14}/> IN PDF</button>
+                                {/* Hành động chính */}
+                                <div className="flex gap-2">
+                                    <button onClick={() => setShowProductManager(true)} className="flex items-center gap-1 px-3 py-1.5 md:py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded shadow font-medium text-xs md:text-sm transition-colors">
+                                        <Icons.Settings size={14} /> <span className="hidden sm:inline">Kho SP</span>
+                                    </button>
+                                    <button onClick={() => setIsPreviewMode(!isPreviewMode)} className={`flex items-center gap-1 px-3 py-1.5 md:py-2 text-white rounded shadow font-medium transition-colors text-xs md:text-sm ${isPreviewMode ? 'bg-sky-600 hover:bg-sky-700' : 'bg-gray-700 hover:bg-gray-800'}`}>
+                                        {isPreviewMode ? <><Icons.Edit size={14}/> Sửa</> : <><Icons.Eye size={14}/> Xem</>}
+                                    </button>
+                                    <button onClick={handlePrint} className="bg-sky-600 text-white px-4 py-1.5 md:py-2 rounded shadow hover:bg-sky-700 flex items-center gap-1 text-xs md:text-sm whitespace-nowrap transition-colors font-bold"><Icons.Printer size={14}/> IN PDF</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div className={`mt-28 sm:mt-24 md:mt-24 lg:mt-20 flex justify-center pb-10 print-container w-full`}>
+                    {/* Dịch xuống một chút vì Toolbar 2 tầng */}
+                    <div className={`mt-32 sm:mt-28 md:mt-32 lg:mt-24 flex justify-center pb-10 print-container w-full`}>
                         <div className="bg-white shadow-lg md:shadow-2xl relative border border-gray-200 w-full max-w-full md:max-w-[297mm] p-3 sm:p-6 md:p-[10mm] min-h-auto md:min-h-[210mm] print-container mx-auto">
                             
+                            {/* HEADER */}
                             {(showHeader || !isPreviewMode) && (
                                 <div className={`relative group/header ${!showHeader && !isPreviewMode ? 'opacity-30' : ''}`}>
                                     {!isPreviewMode && (
@@ -664,8 +1004,8 @@
                                             </label>
                                         </div>
                                         <div className={`flex-grow flex flex-col w-full ${isPreviewMode ? 'justify-center items-start' : 'justify-center items-center md:items-start print:items-start'}`}>
-                                            {renderEditable(data.companyInfo.name, (e) => setData({...data, companyInfo: {...data.companyInfo, name: e.target.value}}), lang === 'vi' ? "Tên Công Ty" : "Company Name", isPreviewMode ? "font-black text-xl uppercase text-left w-full" : "font-black text-lg md:text-xl uppercase text-center md:text-left print:text-left w-full")}
-                                            {renderEditable(data.companyInfo.subName, (e) => setData({...data, companyInfo: {...data.companyInfo, subName: e.target.value}}), lang === 'vi' ? "Mô tả phụ" : "Sub description", isPreviewMode ? "text-sm italic text-gray-600 text-left mb-0 w-full" : "text-xs md:text-sm italic text-gray-600 text-center md:text-left print:text-left mb-2 md:mb-0 w-full")}
+                                            {renderEditable(data.companyInfo.name, (e) => setData({...data, companyInfo: {...data.companyInfo, name: e.target.value}}), t.company, isPreviewMode ? "font-black text-xl uppercase text-left w-full" : "font-black text-lg md:text-xl uppercase text-center md:text-left print:text-left w-full")}
+                                            {renderEditable(data.companyInfo.subName, (e) => setData({...data, companyInfo: {...data.companyInfo, subName: e.target.value}}), t.desc, isPreviewMode ? "text-sm italic text-gray-600 text-left mb-0 w-full" : "text-xs md:text-sm italic text-gray-600 text-center md:text-left print:text-left mb-2 md:mb-0 w-full")}
                                             <div className={`space-y-1 mt-1 flex flex-col w-full ${isPreviewMode ? 'text-xs items-start' : 'text-[10px] md:text-xs items-center md:items-start print:items-start'}`}>
                                                 <div className={`flex w-full ${isPreviewMode ? 'justify-start' : 'justify-center md:justify-start print:justify-start'}`}><strong className={`shrink-0 text-left ${isPreviewMode ? 'w-24' : 'w-16 md:w-24'}`}>{t.email}</strong>{renderEditable(data.companyInfo.address, (e) => setData({...data, companyInfo: {...data.companyInfo, address: e.target.value}}), "", "flex-1")}</div>
                                                 <div className={`flex w-full ${isPreviewMode ? 'justify-start' : 'justify-center md:justify-start print:justify-start'}`}><strong className={`shrink-0 text-left ${isPreviewMode ? 'w-24' : 'w-16 md:w-24'}`}>{t.contact}</strong>{renderEditable(data.companyInfo.website, (e) => setData({...data, companyInfo: {...data.companyInfo, website: e.target.value}}), "", "flex-1")}</div>
@@ -679,7 +1019,7 @@
 
                             <div className={`flex ${isPreviewMode ? 'flex-row justify-between items-end mb-6' : 'flex-col sm:flex-row print:flex-row justify-between items-center sm:items-end print:items-end mb-4 md:mb-6 gap-2'}`}>
                                 <div className={`w-full ${isPreviewMode ? 'text-left pr-8 sm:w-auto' : 'sm:w-auto print:w-auto text-center sm:text-left print:text-left pr-0 sm:pr-8 print:pr-8'}`}>
-                                    {renderEditable(data.projectTitle || "", (e) => setData({...data, projectTitle: e.target.value}), lang === 'vi' ? "TIÊU ĐỀ BÁO GIÁ" : "DOCUMENT TITLE", `font-bold text-sky-600 uppercase w-full ${isPreviewMode ? 'text-3xl text-left' : 'text-2xl md:text-3xl text-center sm:text-left print:text-left'}`)}
+                                    {renderEditable(data.projectTitle || "", (e) => setData({...data, projectTitle: e.target.value}), "TIÊU ĐỀ", `font-bold text-sky-600 uppercase w-full ${isPreviewMode ? 'text-3xl text-left' : 'text-2xl md:text-3xl text-center sm:text-left print:text-left'}`)}
                                 </div>
                                 {(showDate || !isPreviewMode) && (
                                     <div className={`flex-shrink-0 italic text-gray-500 relative group/date ${!showDate && !isPreviewMode ? 'opacity-30' : ''} ${isPreviewMode ? 'text-xs text-right mt-0' : 'text-[10px] md:text-xs text-center sm:text-right print:text-right mt-2 sm:mt-0 print:mt-0'}`}>
@@ -688,7 +1028,7 @@
                                                 <input type="checkbox" checked={showDate} onChange={(e) => setData({...data, settings: {...(data.settings || {}), showDate: e.target.checked}})} className="w-4 h-4 cursor-pointer accent-sky-600" title="Hiển thị/Ẩn Ngày Báo Giá" />
                                             </div>
                                         )}
-                                        {t.quoteDate} {new Date(data.customerInfo.quoteDate).toLocaleDateString(lang === 'vi' ? 'vi-VN' : 'en-GB')}
+                                        {t.quoteDate} {new Date(data.customerInfo.quoteDate).toLocaleDateString(appConfig.lang === 'vi' ? 'vi-VN' : 'en-GB')}
                                     </div>
                                 )}
                             </div>
@@ -725,7 +1065,7 @@
                                         </div>
                                     )}
                                     <div className="text-[10px] md:text-xs italic text-gray-600 text-justify flex w-full">
-                                        {renderEditable(data.greetingNote ?? "Otiz Smarthome xin chân thành cảm ơn Quý Khách đã quan tâm đến sản phẩm của chúng tôi, phúc đáp theo yêu cầu của Quý Khách chúng tôi xin gửi bảng báo giá như sau:", (e) => setData({...data, greetingNote: e.target.value}), "Lời chào báo giá...", "w-full bg-transparent flex-1", true)}
+                                        {renderEditable(data.greetingNote ?? "Aqara Smarthome xin chân thành cảm ơn Quý Khách đã quan tâm đến sản phẩm của chúng tôi, phúc đáp theo yêu cầu của Quý Khách chúng tôi xin gửi bảng báo giá như sau:", (e) => setData({...data, greetingNote: e.target.value}), "Lời chào báo giá...", "w-full bg-transparent flex-1", true)}
                                     </div>
                                     {!isPreviewMode && !showGreeting && <div className="text-red-500 font-medium text-[10px] ui-control bg-red-50 p-1 rounded inline-block mt-1">{t.hideGreetingMsg}</div>}
                                 </div>
@@ -740,6 +1080,7 @@
                                 </div>
                             )}
 
+                            {/* Bảng báo giá */}
                             <div className="w-full overflow-x-auto hide-scrollbar mb-4 md:mb-8 pb-10 print:overflow-visible print:pb-0 border border-gray-200 rounded-t-lg print:border-none">
                                 <table className="w-full border-collapse print-table min-w-[500px] md:min-w-full">
                                     <thead>
@@ -770,6 +1111,7 @@
                                                     <tr key={p.id} className="group hover:bg-sky-50 border-b border-l border-r border-gray-300 break-inside-avoid">
                                                         <td className="text-center text-gray-500 text-[10px] md:text-[11px] align-top py-2 relative w-8 md:w-10 p-0"><div className="w-full h-full flex items-center justify-center">{pIdx + 1}</div></td>
                                                         
+                                                        {/* KHUNG ẢNH THÔNG MINH */}
                                                         <td className="p-1 align-top w-16 md:w-24">
                                                             <div className={`w-14 h-14 md:w-20 md:h-20 flex justify-center mx-auto ${isPreviewMode ? '' : 'bg-gray-50 border border-gray-100 rounded'} relative group/imgbox`}>
                                                                 <label className="cursor-pointer w-full h-full flex justify-center overflow-hidden items-center relative">
@@ -808,7 +1150,7 @@
                                                         </td>
 
                                                         <td className="px-2 pt-1 align-top relative">
-                                                            <ProductAutocomplete value={p.name} onChange={(e) => updateItem(catIdx, pIdx, 'name', e.target.value)} onSelectProduct={(prodData) => handleAutoFillProduct(catIdx, pIdx, prodData)} dbProducts={dbProducts} isPreviewMode={isPreviewMode} placeholder={lang === 'vi' ? "Nhập tên sản phẩm..." : "Enter product name..."} className="font-bold text-gray-800 text-[11px] md:text-xs" />
+                                                            <ProductAutocomplete value={p.name} onChange={(e) => updateItem(catIdx, pIdx, 'name', e.target.value)} onSelectProduct={(prodData) => handleAutoFillProduct(catIdx, pIdx, prodData)} dbProducts={dbProducts} isPreviewMode={isPreviewMode} placeholder={t.desc} formatCurrency={(val) => formatCurrency(val, true)} className="font-bold text-gray-800 text-[11px] md:text-xs" />
                                                             {renderEditable(p.description, (e) => updateItem(catIdx, pIdx, 'description', e.target.value), "Mô tả chi tiết...", "text-gray-500 text-[9px] md:text-[10px] mt-1 text-justify", true)}
                                                         </td>
                                                         <td className="px-1 pt-2 align-top w-12 md:w-20 hidden sm:table-cell">{renderEditable(p.brand, (e) => updateItem(catIdx, pIdx, 'brand', e.target.value), "", "text-center uppercase font-semibold text-[10px] md:text-[11px]")}</td>
@@ -818,7 +1160,9 @@
                                                         
                                                         {showPrices && (
                                                             <React.Fragment>
-                                                                <td className="text-right px-1 md:px-2 font-medium pt-2 align-top w-20 md:w-28">{renderEditable(formatCurrency(p.price), (e) => updateItem(catIdx, pIdx, 'price', parseInt(e.target.value.replace(/[^0-9]/g,''))||0), "0", "text-right text-[10px] md:text-[11px]")}</td>
+                                                                <td className="text-right px-1 md:px-2 font-medium pt-2 align-top w-20 md:w-28 relative">
+                                                                    {renderEditable(formatCurrency(p.price, !isPreviewMode), (e) => updateItem(catIdx, pIdx, 'price', parseInt(e.target.value.replace(/[^0-9]/g,''))||0), "0", "text-right text-[10px] md:text-[11px]")}
+                                                                </td>
                                                                 <td className="text-right px-1 md:px-2 font-bold text-sky-800 pt-2 align-top text-[10px] md:text-[11px] w-24 md:w-28">{formatCurrency(p.qty * p.price)}</td>
                                                             </React.Fragment>
                                                         )}
@@ -834,6 +1178,7 @@
                             
                             {!isPreviewMode && <div className="ui-control mt-2 mb-6 text-center"><button onClick={addCategory} className="border border-dashed border-sky-400 text-sky-600 px-4 py-2 rounded text-xs md:text-sm hover:bg-sky-50 shadow-sm w-full md:w-auto"><Icons.Plus size={14} className="inline mr-1"/> {t.addCategory}</button></div>}
                             
+                            {/* FOOTER */}
                             <div className={`flex break-inside-avoid border-t border-gray-200 ${isPreviewMode ? 'flex-row mt-4 pt-4 gap-8' : 'flex-col md:flex-row mt-4 pt-4 gap-6 md:gap-8'}`}>
                                 <div className={`w-full flex text-gray-600 ${isPreviewMode ? 'w-1/2 flex-col gap-4 text-xs order-1' : 'md:w-1/2 flex-col sm:flex-row md:flex-col lg:flex-row gap-4 text-[10px] md:text-xs order-2 md:order-1 print:order-1'}`}>
                                     
@@ -874,7 +1219,7 @@
                                                 )}
                                                 <div>
                                                     {renderEditable(data.serviceInfo?.title2 !== undefined ? data.serviceInfo.title2 : "(2) Phí dịch vụ bao gồm:", (e) => setData({...data, serviceInfo: {...data.serviceInfo, title2: e.target.value}}), "Tiêu đề 2", "font-bold text-sky-700 mb-1 mt-2 w-full bg-transparent")}
-                                                    {renderEditable(data.serviceInfo?.desc2 !== undefined ? data.serviceInfo.desc2 : "- Bảo hành tận nơi 30 ngày và bảo hành từ xa theo thời gian bảo hành sản phẩm.\n- Kết nối toàn bộ hệ thống.\n- Thiết kế hệ thống, Cấu hình tự động hóa.\n- Chia phòng, đặt tên thiết bị, cấu hình tự động.\n- Hướng dẫn khách hàng thao tác sử dụng.", (e) => setData({...data, serviceInfo: {...data.serviceInfo, desc2: e.target.value}}), "Mô tả phí dịch vụ...", "w-full bg-transparent text-gray-600 leading-relaxed", true)}
+                                                    {renderEditable(data.serviceInfo?.desc2 !== undefined ? data.serviceInfo.desc2 : "- Bảo hành tận nơi theo thời gian bảo hành sản phẩm.\n- Kết nối toàn bộ hệ thống.\n- Thiết kế hệ thống, Cấu hình tự động hóa.\n- Chia phòng, đặt tên thiết bị, cấu hình tự động.\n- Hướng dẫn khách hàng thao tác sử dụng.", (e) => setData({...data, serviceInfo: {...data.serviceInfo, desc2: e.target.value}}), "Mô tả phí dịch vụ...", "w-full bg-transparent text-gray-600 leading-relaxed", true)}
                                                 </div>
                                             </div>
                                         )}
@@ -921,7 +1266,7 @@
 
                                     {(showFinancials || !isPreviewMode) && (
                                         <div className={!showFinancials && !isPreviewMode ? 'opacity-30' : ''}>
-                                            <div className={`flex justify-between items-center border-b ${isPreviewMode ? 'py-1 border-gray-100' : 'py-1.5 md:py-1 border-sky-100 md:border-gray-100'}`}><span className={`font-bold text-gray-700 ${isPreviewMode ? 'text-base' : 'text-sm md:text-base'}`}>{t.subtotal}</span><span className={`font-bold ${isPreviewMode ? 'text-lg' : 'text-base md:text-lg'}`}>{formatCurrency(totals.subtotal)} {t.currencyShort}</span></div>
+                                            <div className={`flex justify-between items-center border-b ${isPreviewMode ? 'py-1 border-gray-100' : 'py-1.5 md:py-1 border-sky-100 md:border-gray-100'}`}><span className={`font-bold text-gray-700 ${isPreviewMode ? 'text-base' : 'text-sm md:text-base'}`}>{t.subtotal}</span><span className={`font-bold ${isPreviewMode ? 'text-lg' : 'text-base md:text-lg'}`}>{formatCurrency(totals.subtotal)}</span></div>
                                             
                                             {(showDiscount || !isPreviewMode) && (
                                                 <div className={`relative group/discount ${!showDiscount && !isPreviewMode ? 'opacity-40' : ''}`}>
@@ -935,15 +1280,15 @@
                                                             {renderEditable(data.financials.discountLabel !== undefined ? data.financials.discountLabel : t.discount, (e) => setData({...data, financials: {...data.financials, discountLabel: e.target.value}}), "Nhập tên chiết khấu...", "bg-transparent text-gray-600 w-full min-w-[120px] font-medium")}
                                                             {!isPreviewMode && <button className="ui-control bg-sky-200 md:bg-gray-200 px-1.5 py-0.5 rounded hover:bg-sky-300 shadow-sm flex-shrink-0 whitespace-nowrap" onClick={() => setData({...data, financials: {...data.financials, discountType: data.financials.discountType === 'amount' ? 'percent' : 'amount'}})}><Icons.RefreshCcw size={10}/> {data.financials.discountType === 'amount' ? t.amountType : t.percentType}</button>}
                                                         </span>
-                                                        <div className="flex items-center gap-1">{renderEditable(data.financials.discountType === 'amount' ? formatCurrency(data.financials.discountValue) : data.financials.discountValue, (e) => setData({...data, financials: {...data.financials, discountValue: parseInt(e.target.value.replace(/[^0-9]/g,''))||0}}), "0", `text-right text-red-500 font-bold bg-transparent ${isPreviewMode ? 'w-24' : 'w-20 md:w-24'}`)} <span className={`font-bold w-6 ${isPreviewMode ? 'text-xs' : 'text-[10px] md:text-xs'}`}>{data.financials.discountType === 'amount' ? t.currencyShort : t.percentType}</span></div>
+                                                        <div className="flex items-center gap-1">{renderEditable(data.financials.discountType === 'amount' ? formatCurrency(data.financials.discountValue, !isPreviewMode) : data.financials.discountValue, (e) => setData({...data, financials: {...data.financials, discountValue: parseInt(e.target.value.replace(/[^0-9]/g,''))||0}}), "0", `text-right text-red-500 font-bold bg-transparent ${isPreviewMode ? 'w-24' : 'w-20 md:w-24'}`)} <span className={`font-bold w-6 ${isPreviewMode ? 'text-xs' : 'text-[10px] md:text-xs'}`}>{data.financials.discountType === 'amount' ? '' : '%'}</span></div>
                                                     </div>
-                                                    {data.financials.discountType === 'percent' && <div className={`flex justify-end text-red-500 font-medium italic ${isPreviewMode ? 'text-[10px]' : 'text-[10px]'}`}>- {formatCurrency(totals.discount)} {t.currencyShort}</div>}
+                                                    {data.financials.discountType === 'percent' && <div className={`flex justify-end text-red-500 font-medium italic ${isPreviewMode ? 'text-[10px]' : 'text-[10px]'}`}>- {formatCurrency(totals.discount)}</div>}
                                                 </div>
                                             )}
 
                                             {(showDiscount || !isPreviewMode) && (
                                                 <div className={`${!showDiscount && !isPreviewMode ? 'hidden' : ''}`}>
-                                                    <div className={`flex justify-between items-center border-b mt-1 ${isPreviewMode ? 'py-1 border-gray-100' : 'py-1.5 md:py-1 border-sky-100 md:border-gray-100'}`}><span className={`font-bold text-gray-700 ${isPreviewMode ? 'text-sm' : 'text-xs md:text-sm'}`}>{t.afterDiscount}</span><span className={`font-bold text-sky-800 ${isPreviewMode ? 'text-base' : 'text-sm md:text-base'}`}>{formatCurrency(totals.subtotal - totals.discount)} {t.currencyShort}</span></div>
+                                                    <div className={`flex justify-between items-center border-b mt-1 ${isPreviewMode ? 'py-1 border-gray-100' : 'py-1.5 md:py-1 border-sky-100 md:border-gray-100'}`}><span className={`font-bold text-gray-700 ${isPreviewMode ? 'text-sm' : 'text-xs md:text-sm'}`}>{t.afterDiscount}</span><span className={`font-bold text-sky-800 ${isPreviewMode ? 'text-base' : 'text-sm md:text-base'}`}>{formatCurrency(totals.subtotal - totals.discount)}</span></div>
                                                 </div>
                                             )}
                                             
@@ -959,13 +1304,13 @@
                                                             {renderEditable(data.financials.installLabel !== undefined ? data.financials.installLabel : t.installFee, (e) => setData({...data, financials: {...data.financials, installLabel: e.target.value}}), "Nhập tên phí...", "bg-transparent text-gray-600 w-full min-w-[120px] font-medium")}
                                                             {!isPreviewMode && <button className="ui-control bg-sky-200 md:bg-gray-200 px-1.5 py-0.5 rounded hover:bg-sky-300 shadow-sm flex-shrink-0 whitespace-nowrap" onClick={() => setData({...data, financials: {...data.financials, installationType: data.financials.installationType === 'amount' ? 'percent' : 'amount'}})}><Icons.RefreshCcw size={10}/> {data.financials.installationType === 'amount' ? t.amountType : t.percentType}</button>}
                                                         </span>
-                                                        <div className="flex items-center gap-1">{renderEditable(data.financials.installationType === 'amount' ? formatCurrency(data.financials.installationValue) : data.financials.installationValue, (e) => setData({...data, financials: {...data.financials, installationValue: parseInt(e.target.value.replace(/[^0-9]/g,''))||0}}), "0", `text-right font-medium bg-transparent ${isPreviewMode ? 'w-24' : 'w-20 md:w-24'}`)} <span className={`text-gray-500 w-6 ${isPreviewMode ? 'text-xs' : 'text-[10px] md:text-xs'}`}>{data.financials.installationType === 'amount' ? t.currencyShort : t.percentType}</span></div>
+                                                        <div className="flex items-center gap-1">{renderEditable(data.financials.installationType === 'amount' ? formatCurrency(data.financials.installationValue, !isPreviewMode) : data.financials.installationValue, (e) => setData({...data, financials: {...data.financials, installationValue: parseInt(e.target.value.replace(/[^0-9]/g,''))||0}}), "0", `text-right font-medium bg-transparent ${isPreviewMode ? 'w-24' : 'w-20 md:w-24'}`)} <span className={`text-gray-500 w-6 ${isPreviewMode ? 'text-xs' : 'text-[10px] md:text-xs'}`}>{data.financials.installationType === 'amount' ? '' : '%'}</span></div>
                                                     </div>
-                                                    {data.financials.installationType === 'percent' && <div className={`flex justify-end text-gray-500 font-medium italic ${isPreviewMode ? 'text-[10px]' : 'text-[10px]'}`}>+ {formatCurrency(totals.install)} {t.currencyShort}</div>}
+                                                    {data.financials.installationType === 'percent' && <div className={`flex justify-end text-gray-500 font-medium italic ${isPreviewMode ? 'text-[10px]' : 'text-[10px]'}`}>+ {formatCurrency(totals.install)}</div>}
                                                 </div>
                                             )}
                                             
-                                            <div className={`flex justify-between items-center bg-sky-600 text-white rounded shadow-md ${isPreviewMode ? 'py-4 mt-3 px-5' : 'py-3 md:py-4 mt-3 px-4 md:px-5'}`}><span className={`font-bold uppercase tracking-wider ${isPreviewMode ? 'text-base' : 'text-sm md:text-base'}`}>{t.grandTotal}</span><span className={`font-black ${isPreviewMode ? 'text-2xl' : 'text-xl md:text-2xl'}`}>{formatCurrency(totals.total)} <span className={`font-medium ${isPreviewMode ? 'text-lg' : 'text-sm md:text-lg'}`}>{t.currency}</span></span></div>
+                                            <div className={`flex justify-between items-center bg-sky-600 text-white rounded shadow-md ${isPreviewMode ? 'py-4 mt-3 px-5' : 'py-3 md:py-4 mt-3 px-4 md:px-5'}`}><span className={`font-bold uppercase tracking-wider ${isPreviewMode ? 'text-base' : 'text-sm md:text-base'}`}>{t.grandTotal}</span><span className={`font-black ${isPreviewMode ? 'text-2xl' : 'text-xl md:text-2xl'}`}>{formatCurrency(totals.total)}</span></div>
                                             {!isPreviewMode && !showFinancials && <div className="text-red-500 font-medium mt-2 text-[10px] ui-control bg-red-50 p-1 rounded inline-block">{t.hideTotalMsg}</div>}
                                         </div>
                                     )}
@@ -989,7 +1334,7 @@
                             )}
 
                             <div className="text-center text-[9px] md:text-[10px] text-gray-400 mt-12 md:mt-16 italic border-t border-gray-100 pt-3 break-inside-avoid">
-                                {renderEditable(data.footerNote !== undefined ? data.footerNote : "Báo giá có giá trị 2 tuần - Otiz Smarthome", (e) => setData({...data, footerNote: e.target.value}), "Ghi chú chân trang (Xóa sạch nếu muốn ẩn)...", "text-center w-full bg-transparent")}
+                                {renderEditable(data.footerNote !== undefined ? data.footerNote : "Báo giá có giá trị 2 tuần - Aqara Smarthome", (e) => setData({...data, footerNote: e.target.value}), "Ghi chú chân trang (Xóa sạch nếu muốn ẩn)...", "text-center w-full bg-transparent")}
                             </div>
 
                         </div>
