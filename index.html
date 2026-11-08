@@ -70,7 +70,8 @@
             Settings: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>,
             Download: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>,
             FolderOpen: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>,
-            FileSpreadsheet: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13h2"/><path d="M8 17h2"/><path d="M14 13h2"/><path d="M14 17h2"/></svg>
+            FileSpreadsheet: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M8 13h2"/><path d="M8 17h2"/><path d="M14 13h2"/><path d="M14 17h2"/></svg>,
+            History: ({size=16}) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
         };
 
         // --- LOCAL DATABASE HELPER ---
@@ -104,7 +105,7 @@
                 company: "Công ty:", phone: "SĐT:", mst: "MST:",
                 stt: "STT", image: "Hình ảnh", desc: "Tên thiết bị / Mô tả tính năng",
                 brand: "Hãng", warranty: "BH(T)", qty: "SL", unit: "ĐVT",
-                price: "Đơn giá", total: "Thành tiền", delete: "Xóa",
+                price: "Đơn giá", discountedPrice: "Đơn giá sau CK", total: "Thành tiền", delete: "Xóa",
                 subtotal: "Tổng giá trị:", discount: "Chiết khấu:", amountType: "Số tiền", percentType: "%",
                 afterDiscount: "Giá sau chiết khấu:", installFee: "Phí lắp đặt:",
                 grandTotal: "Tổng Thanh Toán", currency: "VNĐ", currencyShort: "đ",
@@ -115,6 +116,8 @@
                 hideTotalMsg: "Đang ẩn Tổng Tiền khi IN.",
                 hidePaymentMsg: "Đang ẩn (Tích vào ô vuông để hiện khi in)",
                 showPriceCheck: "Hiển thị cột Đơn giá & Thành tiền",
+                showDiscountedPriceCheck: "Cột Đơn giá sau CK (Đối soát)",
+                hideDiscountedOnPrintCheck: "Ẩn cột Giá sau CK khi Xem/In",
                 uploadLogo: "Tải Logo", changeImage: "Đổi ảnh", uploadImage: "Tải ảnh"
             },
             en: {
@@ -123,7 +126,7 @@
                 company: "Company:", phone: "Phone:", mst: "Tax ID:",
                 stt: "No.", image: "Image", desc: "Item / Description",
                 brand: "Brand", warranty: "Wty(M)", qty: "Qty", unit: "Unit",
-                price: "Unit Price", total: "Amount", delete: "Del",
+                price: "Unit Price", discountedPrice: "Net Unit Price", total: "Amount", delete: "Del",
                 subtotal: "Subtotal:", discount: "Discount:", amountType: "Amount", percentType: "%",
                 afterDiscount: "After Discount:", installFee: "Installation:",
                 grandTotal: "Grand Total", currency: "USD", currencyShort: "$",
@@ -134,6 +137,8 @@
                 hideTotalMsg: "Totals hidden during print.",
                 hidePaymentMsg: "Hidden during print (Check to show)",
                 showPriceCheck: "Show Unit Price & Amount columns",
+                showDiscountedPriceCheck: "Net Unit Price Column (Reconcile)",
+                hideDiscountedOnPrintCheck: "Hide Net Price on Print",
                 uploadLogo: "Upload Logo", changeImage: "Change", uploadImage: "Upload"
             }
         };
@@ -150,13 +155,29 @@
             const [editableProducts, setEditableProducts] = useState([]);
             const [hasChanges, setHasChanges] = useState(false);
             const [uploading, setUploading] = useState(false);
+            const [historyModalIdx, setHistoryModalIdx] = useState(null);
+            const [newHistPrice, setNewHistPrice] = useState("");
+            const [newHistDate, setNewHistDate] = useState(() => new Date().toISOString().split('T')[0]);
+            const [statusMessage, setStatusMessage] = useState("");
 
             useEffect(() => {
                 if (isOpen) {
-                    setEditableProducts([...dbProducts]);
+                    setEditableProducts(dbProducts.map(p => ({
+                        ...p,
+                        GiaNhap: p.GiaNhap || 0,
+                        NgayNhap: p.NgayNhap || "",
+                        LichSuNhap: Array.isArray(p.LichSuNhap) ? p.LichSuNhap.slice(0, 5) : (p.GiaNhap ? [{ gia: p.GiaNhap, ngay: p.NgayNhap || new Date().toISOString().split('T')[0] }] : [])
+                    })));
                     setHasChanges(false);
+                    setHistoryModalIdx(null);
+                    setStatusMessage("");
                 }
             }, [isOpen, dbProducts]);
+
+            const showTempMessage = (msg) => {
+                setStatusMessage(msg);
+                setTimeout(() => setStatusMessage(""), 4000);
+            };
 
             const handleExcelUpload = (e) => {
                 const file = e.target.files[0];
@@ -185,7 +206,7 @@
                         }
 
                         if (headerRowIndex === -1) {
-                            alert("LỖI ĐỌC FILE: Không tìm thấy dòng Tiêu đề. Vui lòng kiểm tra lại file!");
+                            showTempMessage("LỖI ĐỌC FILE: Không tìm thấy dòng Tiêu đề. Vui lòng kiểm tra lại file!");
                             setUploading(false); return;
                         }
 
@@ -211,6 +232,8 @@
                             return null;
                         };
 
+                        const todayStr = new Date().toISOString().split('T')[0];
+
                         const normalizedData = jsonData.map((item) => {
                             const nameKey = getColumnName(item, ['Tên SP', 'Ten SP', 'Tên sản phẩm', 'TenSP', 'Tên', 'Ten', 'Name', 'Model']);
                             const descKey = getColumnName(item, ['Mô tả', 'MoTa', 'Description', 'Thông số', 'Thông tin', 'Diễn giải']);
@@ -218,7 +241,9 @@
                             const warKey = getColumnName(item, ['Bảo hành', 'BaoHanh', 'BH', 'Warranty']);
                             const unitKey = getColumnName(item, ['ĐVT', 'DVT', 'Đơn vị', 'Unit']);
                             const codeKey = getColumnName(item, ['Mã SP', 'Ma SP', 'Mã sản phẩm', 'Mã', 'SKU', 'Code', 'Model']);
-                            let priceKey = Object.keys(item).find(k => k.toLowerCase().includes('giá') || k.toLowerCase().includes('gia') || k.toLowerCase().includes('price') || k.toLowerCase().includes('đơn giá'));
+                            const costKey = getColumnName(item, ['Giá nhập', 'Gia nhap', 'Giá vốn', 'Gia von', 'Cost', 'Import Price']);
+                            const importDateKey = getColumnName(item, ['Ngày nhập', 'Ngay nhap', 'Import Date', 'Ngày']);
+                            let priceKey = Object.keys(item).find(k => (k.toLowerCase().includes('giá') || k.toLowerCase().includes('gia') || k.toLowerCase().includes('price') || k.toLowerCase().includes('đơn giá')) && k !== costKey);
 
                             if (!nameKey || !item[nameKey]) return null;
 
@@ -226,6 +251,13 @@
                             let parsedPrice = 0;
                             if (typeof rawPrice === 'number') { parsedPrice = rawPrice; } 
                             else if (rawPrice) { parsedPrice = parseInt(String(rawPrice).replace(/[^0-9]/g, ''), 10) || 0; }
+
+                            let rawCost = costKey ? item[costKey] : 0;
+                            let parsedCost = 0;
+                            if (typeof rawCost === 'number') { parsedCost = rawCost; }
+                            else if (rawCost) { parsedCost = parseInt(String(rawCost).replace(/[^0-9]/g, ''), 10) || 0; }
+
+                            let parsedDate = importDateKey && item[importDateKey] ? String(item[importDateKey]).trim() : (parsedCost > 0 ? todayStr : "");
 
                             return {
                                 id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
@@ -235,19 +267,22 @@
                                 Hang: String(item[brandKey] || '').trim(),
                                 BaoHanh: String(item[warKey] || '18').trim(),
                                 DVT: String(item[unitKey] || 'Cái').trim(),
-                                Gia: parsedPrice // Luôn lưu giá bằng VNĐ gốc
+                                Gia: parsedPrice,
+                                GiaNhap: parsedCost,
+                                NgayNhap: parsedDate,
+                                LichSuNhap: parsedCost > 0 ? [{ gia: parsedCost, ngay: parsedDate || todayStr }] : []
                             };
                         }).filter(i => i !== null);
 
                         if(normalizedData.length === 0) {
-                            alert("Đã đọc được file Excel nhưng không chắt lọc được sản phẩm nào. Cột 'Tên SP' có thể đang bị trống dữ liệu!");
+                            showTempMessage("Đã đọc file Excel nhưng không lọc được sản phẩm nào. Cột 'Tên SP' có thể đang trống!");
                         } else {
                             setEditableProducts([...normalizedData, ...editableProducts]);
                             setHasChanges(true);
-                            alert(`Đã nạp ${normalizedData.length} sản phẩm từ Excel! Anh NHỚ BẤM LƯU để lưu vào máy nhé.`);
+                            showTempMessage(`Đã nạp ${normalizedData.length} sản phẩm từ Excel! Anh NHỚ BẤM LƯU để lưu vào máy nhé.`);
                         }
                     } catch (err) { 
-                        console.error("Lỗi code:", err); alert("Lỗi khi đọc file Excel!");
+                        console.error("Lỗi code:", err); showTempMessage("Lỗi khi đọc file Excel!");
                     } finally { 
                         setUploading(false); e.target.value = null; 
                     }
@@ -258,11 +293,45 @@
             const handleFieldChange = (index, field, value) => {
                 const updated = [...editableProducts];
                 updated[index][field] = value;
+                if (field === 'GiaNhap' && !updated[index].NgayNhap) {
+                    updated[index].NgayNhap = new Date().toISOString().split('T')[0];
+                }
+                setEditableProducts(updated);
+                setHasChanges(true);
+            };
+
+            const handleAddHistoryEntry = (idx) => {
+                const priceNum = parseInt(String(newHistPrice).replace(/[^0-9]/g, ''), 10) || 0;
+                if (priceNum <= 0) return;
+                const dateStr = newHistDate || new Date().toISOString().split('T')[0];
+                const updated = [...editableProducts];
+                const prod = updated[idx];
+                const currentHist = Array.isArray(prod.LichSuNhap) ? prod.LichSuNhap : [];
+                const updatedHist = [{ gia: priceNum, ngay: dateStr }, ...currentHist].slice(0, 5);
+                prod.LichSuNhap = updatedHist;
+                prod.GiaNhap = priceNum;
+                prod.NgayNhap = dateStr;
+                setEditableProducts(updated);
+                setNewHistPrice("");
+                setHasChanges(true);
+            };
+
+            const handleDeleteHistoryEntry = (prodIdx, histIdx) => {
+                const updated = [...editableProducts];
+                const prod = updated[prodIdx];
+                const currentHist = Array.isArray(prod.LichSuNhap) ? [...prod.LichSuNhap] : [];
+                currentHist.splice(histIdx, 1);
+                prod.LichSuNhap = currentHist;
+                if (currentHist.length > 0) {
+                    prod.GiaNhap = currentHist[0].gia;
+                    prod.NgayNhap = currentHist[0].ngay;
+                }
                 setEditableProducts(updated);
                 setHasChanges(true);
             };
 
             const handleAddBlankProduct = () => {
+                const todayStr = new Date().toISOString().split('T')[0];
                 const newProd = {
                     id: Date.now().toString(),
                     MaSP: "",
@@ -271,48 +340,66 @@
                     Hang: "",
                     BaoHanh: "18",
                     DVT: "Cái",
-                    Gia: 0
+                    Gia: 0,
+                    GiaNhap: 0,
+                    NgayNhap: todayStr,
+                    LichSuNhap: []
                 };
                 setEditableProducts([newProd, ...editableProducts]); 
                 setHasChanges(true);
             };
 
             const handleDeleteRow = (index) => {
-                if(confirm("Xóa sản phẩm này khỏi danh sách?")) {
-                    const updated = [...editableProducts];
-                    updated.splice(index, 1);
-                    setEditableProducts(updated);
-                    setHasChanges(true);
-                }
+                const updated = [...editableProducts];
+                updated.splice(index, 1);
+                setEditableProducts(updated);
+                setHasChanges(true);
             };
 
             const handleClearAll = () => {
-                if(confirm("⚠️ CẢNH BÁO: Anh có chắc chắn muốn XÓA SẠCH toàn bộ sản phẩm trong kho không?\n\n(Lưu ý: Sau khi xóa, anh cần bấm nút 'LƯU THAY ĐỔI' để chính thức xóa khỏi máy tính)")) {
-                    setEditableProducts([]);
-                    setHasChanges(true);
-                }
+                setEditableProducts([]);
+                setHasChanges(true);
+                showTempMessage("Đã xóa trắng danh sách trên bảng. Bấm 'LƯU THAY ĐỔI NGAY' để áp dụng vào máy.");
             };
 
             const handleSaveAll = () => {
-                if (localDbHelper.saveProducts(editableProducts)) {
+                const todayStr = new Date().toISOString().split('T')[0];
+                // Tự động ghi nhận Giá nhập & Ngày nhập mới vào lịch sử 5 lần gần nhất nếu có thay đổi
+                const syncedProducts = editableProducts.map(p => {
+                    const cost = parseInt(p.GiaNhap, 10) || 0;
+                    const date = p.NgayNhap || todayStr;
+                    let hist = Array.isArray(p.LichSuNhap) ? [...p.LichSuNhap] : [];
+                    if (cost > 0) {
+                        const latest = hist[0];
+                        if (!latest || latest.gia !== cost || latest.ngay !== date) {
+                            hist = [{ gia: cost, ngay: date }, ...hist].slice(0, 5);
+                        }
+                    }
+                    return { ...p, GiaNhap: cost, NgayNhap: p.NgayNhap || (cost > 0 ? todayStr : ""), LichSuNhap: hist.slice(0, 5) };
+                });
+
+                if (localDbHelper.saveProducts(syncedProducts)) {
+                    setEditableProducts(syncedProducts);
                     setHasChanges(false);
-                    alert("Đã lưu danh sách sản phẩm thành công vào bộ nhớ máy tính!");
+                    showTempMessage("✅ Đã lưu danh sách và cập nhật lịch sử giá nhập thành công!");
                     onReload(); 
                 }
             };
 
             if (!isOpen) return null;
 
+            const activeHistProd = historyModalIdx !== null ? editableProducts[historyModalIdx] : null;
+
             return (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[200] p-2 sm:p-4">
-                    <div className="bg-white rounded-lg shadow-xl w-full max-w-6xl h-[90vh] md:h-[85vh] flex flex-col overflow-hidden border border-gray-200">
+                    <div className="bg-white rounded-lg shadow-xl w-full max-w-7xl h-[90vh] md:h-[85vh] flex flex-col overflow-hidden border border-gray-200 relative">
                         {/* Header Modal */}
                         <div className="p-3 md:p-4 border-b flex justify-between items-center bg-gray-50 shadow-sm relative z-10">
                             <div>
                                 <h3 className="text-base md:text-lg font-bold flex items-center gap-2 text-gray-800">
-                                    <Icons.Database /> Kho Sản Phẩm (Lưu trên máy)
+                                    <Icons.Database /> Kho Sản Phẩm - Otiz Smarthome (Lưu trên máy)
                                 </h3>
-                                <p className="text-xs text-gray-500 mt-1">Sửa trực tiếp các ô bên dưới. Dữ liệu siêu tốc không cần mạng.</p>
+                                <p className="text-xs text-gray-500 mt-1">Sửa trực tiếp Giá bán, Giá nhập, Ngày nhập bên dưới. Tự động lưu tối đa 5 lần lịch sử giá nhập gần nhất.</p>
                             </div>
                             <div className="flex items-center gap-4">
                                 <button onClick={onClose} className="text-gray-400 hover:text-gray-800 p-1 rounded-full hover:bg-gray-200 transition-colors">✕</button>
@@ -321,7 +408,7 @@
                         
                         {/* Toolbar Modal */}
                         <div className="p-3 md:p-4 bg-sky-50 border-b border-sky-100 flex flex-wrap gap-3 items-center justify-between shadow-inner relative z-10">
-                            <div className="flex flex-wrap gap-2">
+                            <div className="flex flex-wrap gap-2 items-center">
                                 <label className={`flex items-center justify-center gap-2 px-3 md:px-4 py-2 text-xs md:text-sm text-white rounded shadow transition-colors w-full sm:w-auto ${uploading ? 'bg-orange-500 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700 cursor-pointer'}`}>
                                     <Icons.Upload size={14}/> {uploading ? "Đang đọc..." : "Nạp từ Excel"}
                                     <input type="file" accept=".xlsx, .xls" onChange={handleExcelUpload} disabled={uploading} className="hidden"/>
@@ -332,6 +419,11 @@
                                 <button onClick={handleClearAll} className="flex items-center gap-2 px-3 py-2 bg-red-500 hover:bg-red-600 text-white text-xs md:text-sm rounded shadow transition-colors w-full sm:w-auto justify-center" title="Xóa toàn bộ để nạp file mới">
                                     <Icons.Trash2 size={14}/> Xóa tất cả
                                 </button>
+                                {statusMessage && (
+                                    <span className="text-xs font-bold text-emerald-700 bg-emerald-100 border border-emerald-300 px-3 py-1.5 rounded-full animate-pulse">
+                                        {statusMessage}
+                                    </span>
+                                )}
                             </div>
 
                             <div className="flex items-center gap-3 w-full lg:w-auto mt-2 lg:mt-0">
@@ -347,87 +439,217 @@
 
                         {/* Table Area */}
                         <div className="flex-1 overflow-x-auto overflow-y-auto bg-gray-50 hide-scrollbar relative">
-                            <table className="w-full min-w-[800px] border-collapse text-xs md:text-sm bg-white shadow-sm">
+                            <table className="w-full min-w-[1050px] border-collapse text-xs md:text-sm bg-white shadow-sm">
                                 <thead className="bg-gray-200 sticky top-0 shadow-sm z-20">
                                     <tr>
                                         <th className="border-b p-2 md:p-3 text-left w-10 text-gray-600">#</th>
                                         <th className="border-b border-l p-2 md:p-3 text-left w-24 text-gray-600" title="Đặt mã SP để tool tự động gọi ảnh trên GitHub">Mã SP</th>
                                         <th className="border-b border-l p-2 md:p-3 text-left text-gray-600">Tên Sản Phẩm</th>
                                         <th className="border-b border-l p-2 md:p-3 text-left w-32 text-gray-600">Giá Bán (VNĐ)</th>
+                                        <th className="border-b border-l p-2 md:p-3 text-left w-32 text-amber-800 bg-amber-50">Giá Nhập (VNĐ)</th>
+                                        <th className="border-b border-l p-2 md:p-3 text-left w-36 text-amber-800 bg-amber-50">Ngày Nhập</th>
+                                        <th className="border-b border-l p-2 md:p-3 text-center w-28 text-amber-800 bg-amber-50">Lịch Sử Giá</th>
                                         <th className="border-b border-l p-2 md:p-3 text-left w-20 text-gray-600">ĐVT</th>
-                                        <th className="border-b border-l p-2 md:p-3 text-left w-28 text-gray-600">Hãng</th>
+                                        <th className="border-b border-l p-2 md:p-3 text-left w-24 text-gray-600">Hãng</th>
                                         <th className="border-b border-l p-2 md:p-3 text-left w-16 text-gray-600">BH(T)</th>
-                                        <th className="border-b border-l p-2 md:p-3 w-12 md:w-16 text-center text-gray-600">Xóa</th>
+                                        <th className="border-b border-l p-2 md:p-3 w-12 text-center text-gray-600">Xóa</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {editableProducts.length === 0 && (
-                                        <tr><td colSpan="8" className="text-center p-12 text-gray-400 text-base">Kho trống. Hãy nạp file Excel hoặc Thêm thủ công.</td></tr>
+                                        <tr><td colSpan="11" className="text-center p-12 text-gray-400 text-base">Kho trống. Hãy nạp file Excel hoặc Thêm thủ công.</td></tr>
                                     )}
-                                    {editableProducts.map((p, idx) => (
-                                        <tr key={idx} className="hover:bg-sky-50 transition-colors border-b border-gray-100 group">
-                                            <td className="p-2 text-center text-gray-400">{idx + 1}</td>
-                                            <td className="p-1 border-l border-gray-100">
-                                                <input 
-                                                    type="text" 
-                                                    value={p.MaSP || ''} 
-                                                    onChange={(e) => handleFieldChange(idx, 'MaSP', e.target.value)}
-                                                    className="w-full px-2 py-1.5 bg-sky-50/50 border border-transparent focus:border-sky-400 focus:bg-white focus:ring-1 ring-sky-200 outline-none rounded font-bold text-sky-800 transition-all uppercase"
-                                                    placeholder="VD: M1S"
-                                                />
-                                            </td>
-                                            <td className="p-1 border-l border-gray-100">
-                                                <input 
-                                                    type="text" 
-                                                    value={p.TenSP} 
-                                                    onChange={(e) => handleFieldChange(idx, 'TenSP', e.target.value)}
-                                                    className="w-full px-2 py-1.5 bg-transparent border border-transparent focus:border-sky-400 focus:bg-white focus:ring-1 ring-sky-200 outline-none rounded font-medium text-gray-800 transition-all"
-                                                    placeholder="Tên sản phẩm..."
-                                                />
-                                            </td>
-                                            <td className="p-1 border-l border-gray-100 relative">
-                                                <input 
-                                                    type="number" 
-                                                    value={p.Gia} 
-                                                    onChange={(e) => handleFieldChange(idx, 'Gia', parseInt(e.target.value) || 0)}
-                                                    className="w-full px-2 py-1.5 bg-transparent border border-transparent focus:border-sky-400 focus:bg-white focus:ring-1 ring-sky-200 outline-none rounded font-bold text-sky-600 text-right transition-all pr-5"
-                                                />
-                                                <span className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-[10px]">đ</span>
-                                            </td>
-                                            <td className="p-1 border-l border-gray-100">
-                                                <input 
-                                                    type="text" 
-                                                    value={p.DVT} 
-                                                    onChange={(e) => handleFieldChange(idx, 'DVT', e.target.value)}
-                                                    className="w-full px-2 py-1.5 bg-transparent border border-transparent focus:border-sky-400 focus:bg-white focus:ring-1 ring-sky-200 outline-none rounded text-center transition-all text-gray-600"
-                                                />
-                                            </td>
-                                            <td className="p-1 border-l border-gray-100">
-                                                <input 
-                                                    type="text" 
-                                                    value={p.Hang} 
-                                                    onChange={(e) => handleFieldChange(idx, 'Hang', e.target.value)}
-                                                    className="w-full px-2 py-1.5 bg-transparent border border-transparent focus:border-sky-400 focus:bg-white focus:ring-1 ring-sky-200 outline-none rounded text-center uppercase transition-all text-gray-600"
-                                                />
-                                            </td>
-                                            <td className="p-1 border-l border-gray-100">
-                                                <input 
-                                                    type="text" 
-                                                    value={p.BaoHanh} 
-                                                    onChange={(e) => handleFieldChange(idx, 'BaoHanh', e.target.value)}
-                                                    className="w-full px-2 py-1.5 bg-transparent border border-transparent focus:border-sky-400 focus:bg-white focus:ring-1 ring-sky-200 outline-none rounded text-center transition-all text-gray-600"
-                                                />
-                                            </td>
-                                            <td className="p-1 border-l border-gray-100 text-center">
-                                                <button onClick={() => handleDeleteRow(idx)} className="text-red-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded transition-colors" title="Xóa dòng này">
-                                                    <Icons.Trash2 size={16}/>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                    {editableProducts.map((p, idx) => {
+                                        const histCount = Array.isArray(p.LichSuNhap) ? p.LichSuNhap.length : 0;
+                                        return (
+                                            <tr key={idx} className="hover:bg-sky-50 transition-colors border-b border-gray-100 group">
+                                                <td className="p-2 text-center text-gray-400">{idx + 1}</td>
+                                                <td className="p-1 border-l border-gray-100">
+                                                    <input 
+                                                        type="text" 
+                                                        value={p.MaSP || ''} 
+                                                        onChange={(e) => handleFieldChange(idx, 'MaSP', e.target.value)}
+                                                        className="w-full px-2 py-1.5 bg-sky-50/50 border border-transparent focus:border-sky-400 focus:bg-white focus:ring-1 ring-sky-200 outline-none rounded font-bold text-sky-800 transition-all uppercase"
+                                                        placeholder="VD: M1S"
+                                                    />
+                                                </td>
+                                                <td className="p-1 border-l border-gray-100">
+                                                    <input 
+                                                        type="text" 
+                                                        value={p.TenSP} 
+                                                        onChange={(e) => handleFieldChange(idx, 'TenSP', e.target.value)}
+                                                        className="w-full px-2 py-1.5 bg-transparent border border-transparent focus:border-sky-400 focus:bg-white focus:ring-1 ring-sky-200 outline-none rounded font-medium text-gray-800 transition-all"
+                                                        placeholder="Tên sản phẩm..."
+                                                    />
+                                                </td>
+                                                <td className="p-1 border-l border-gray-100 relative">
+                                                    <input 
+                                                        type="number" 
+                                                        value={p.Gia} 
+                                                        onChange={(e) => handleFieldChange(idx, 'Gia', parseInt(e.target.value) || 0)}
+                                                        className="w-full px-2 py-1.5 bg-transparent border border-transparent focus:border-sky-400 focus:bg-white focus:ring-1 ring-sky-200 outline-none rounded font-bold text-sky-600 text-right transition-all pr-5"
+                                                    />
+                                                    <span className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-[10px]">đ</span>
+                                                </td>
+                                                <td className="p-1 border-l border-gray-100 bg-amber-50/30 relative">
+                                                    <input 
+                                                        type="number" 
+                                                        value={p.GiaNhap || 0} 
+                                                        onChange={(e) => handleFieldChange(idx, 'GiaNhap', parseInt(e.target.value) || 0)}
+                                                        className="w-full px-2 py-1.5 bg-transparent border border-transparent focus:border-amber-400 focus:bg-white focus:ring-1 ring-amber-200 outline-none rounded font-bold text-amber-700 text-right transition-all pr-5"
+                                                    />
+                                                    <span className="absolute right-2 top-1/2 -translate-y-1/2 text-amber-400 pointer-events-none text-[10px]">đ</span>
+                                                </td>
+                                                <td className="p-1 border-l border-gray-100 bg-amber-50/30">
+                                                    <input 
+                                                        type="date" 
+                                                        value={p.NgayNhap || ''} 
+                                                        onChange={(e) => handleFieldChange(idx, 'NgayNhap', e.target.value)}
+                                                        className="w-full px-2 py-1.5 bg-transparent border border-transparent focus:border-amber-400 focus:bg-white focus:ring-1 ring-amber-200 outline-none rounded text-center text-xs text-gray-700 transition-all"
+                                                    />
+                                                </td>
+                                                <td className="p-1 border-l border-gray-100 bg-amber-50/30 text-center">
+                                                    <button 
+                                                        onClick={() => {
+                                                            setHistoryModalIdx(idx);
+                                                            setNewHistPrice(p.GiaNhap || "");
+                                                            setNewHistDate(p.NgayNhap || new Date().toISOString().split('T')[0]);
+                                                        }}
+                                                        className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-100 hover:bg-amber-200 text-amber-800 rounded-full text-xs font-semibold transition-colors"
+                                                        title="Xem & thêm lịch sử nhập giá (Tối đa 5 lần gần nhất)"
+                                                    >
+                                                        <Icons.History size={13}/> ({histCount}/5)
+                                                    </button>
+                                                </td>
+                                                <td className="p-1 border-l border-gray-100">
+                                                    <input 
+                                                        type="text" 
+                                                        value={p.DVT} 
+                                                        onChange={(e) => handleFieldChange(idx, 'DVT', e.target.value)}
+                                                        className="w-full px-2 py-1.5 bg-transparent border border-transparent focus:border-sky-400 focus:bg-white focus:ring-1 ring-sky-200 outline-none rounded text-center transition-all text-gray-600"
+                                                    />
+                                                </td>
+                                                <td className="p-1 border-l border-gray-100">
+                                                    <input 
+                                                        type="text" 
+                                                        value={p.Hang} 
+                                                        onChange={(e) => handleFieldChange(idx, 'Hang', e.target.value)}
+                                                        className="w-full px-2 py-1.5 bg-transparent border border-transparent focus:border-sky-400 focus:bg-white focus:ring-1 ring-sky-200 outline-none rounded text-center uppercase transition-all text-gray-600"
+                                                    />
+                                                </td>
+                                                <td className="p-1 border-l border-gray-100">
+                                                    <input 
+                                                        type="text" 
+                                                        value={p.BaoHanh} 
+                                                        onChange={(e) => handleFieldChange(idx, 'BaoHanh', e.target.value)}
+                                                        className="w-full px-2 py-1.5 bg-transparent border border-transparent focus:border-sky-400 focus:bg-white focus:ring-1 ring-sky-200 outline-none rounded text-center transition-all text-gray-600"
+                                                    />
+                                                </td>
+                                                <td className="p-1 border-l border-gray-100 text-center">
+                                                    <button onClick={() => handleDeleteRow(idx)} className="text-red-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded transition-colors" title="Xóa dòng này">
+                                                        <Icons.Trash2 size={16}/>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
                                 </tbody>
                             </table>
                         </div>
+
+                        {/* Modal Lịch Sử Nhập Giá (5 lần gần nhất) */}
+                        {activeHistProd && (
+                            <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[250] p-4">
+                                <div className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden border border-amber-200">
+                                    <div className="p-4 bg-amber-50 border-b border-amber-200 flex justify-between items-center">
+                                        <div>
+                                            <h4 className="font-bold text-amber-900 flex items-center gap-2 text-sm md:text-base">
+                                                <Icons.History size={18}/> Lịch Sử Nhập Giá (5 lần gần nhất)
+                                            </h4>
+                                            <p className="text-xs text-amber-700 font-medium mt-0.5 truncate max-w-[320px]">
+                                                {activeHistProd.MaSP ? `[${activeHistProd.MaSP}] ` : ''}{activeHistProd.TenSP}
+                                            </p>
+                                        </div>
+                                        <button onClick={() => setHistoryModalIdx(null)} className="text-gray-400 hover:text-gray-700 p-1 rounded-full hover:bg-amber-100">✕</button>
+                                    </div>
+
+                                    <div className="p-4 space-y-4">
+                                        {/* Form thêm nhanh lần nhập mới */}
+                                        <div className="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                                            <div className="text-xs font-bold text-gray-700 mb-2">Thêm lần nhập giá mới:</div>
+                                            <div className="flex gap-2 items-center">
+                                                <input 
+                                                    type="number" 
+                                                    value={newHistPrice} 
+                                                    onChange={(e) => setNewHistPrice(e.target.value)}
+                                                    placeholder="Giá nhập (VNĐ)..."
+                                                    className="flex-1 border border-gray-300 rounded px-2.5 py-1.5 text-xs outline-none focus:border-amber-500 font-bold text-amber-800"
+                                                />
+                                                <input 
+                                                    type="date" 
+                                                    value={newHistDate} 
+                                                    onChange={(e) => setNewHistDate(e.target.value)}
+                                                    className="w-36 border border-gray-300 rounded px-2 py-1.5 text-xs outline-none focus:border-amber-500"
+                                                />
+                                                <button 
+                                                    onClick={() => handleAddHistoryEntry(historyModalIdx)}
+                                                    className="bg-amber-600 hover:bg-amber-700 text-white px-3 py-1.5 rounded text-xs font-bold shadow-sm transition-colors whitespace-nowrap"
+                                                >
+                                                    + Lưu
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        {/* Danh sách 5 lần gần nhất */}
+                                        <div>
+                                            <div className="text-xs font-bold text-gray-600 mb-2 flex justify-between">
+                                                <span>Danh sách lưu trữ (Mới nhất ở trên):</span>
+                                                <span>{(activeHistProd.LichSuNhap || []).length}/5 lần</span>
+                                            </div>
+                                            {(!activeHistProd.LichSuNhap || activeHistProd.LichSuNhap.length === 0) ? (
+                                                <div className="text-center py-6 text-xs text-gray-400 bg-gray-50 rounded border border-dashed">
+                                                    Chưa có lịch sử giá nhập cho sản phẩm này.
+                                                </div>
+                                            ) : (
+                                                <div className="divide-y border rounded-lg overflow-hidden">
+                                                    {activeHistProd.LichSuNhap.slice(0, 5).map((h, hIdx) => (
+                                                        <div key={hIdx} className={`flex items-center justify-between p-2.5 text-xs ${hIdx === 0 ? 'bg-amber-50/70 font-bold' : 'bg-white'}`}>
+                                                            <div className="flex items-center gap-2">
+                                                                <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${hIdx === 0 ? 'bg-amber-500 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                                                                    {hIdx + 1}
+                                                                </span>
+                                                                <div>
+                                                                    <div className="text-amber-800 font-bold">
+                                                                        {new Intl.NumberFormat('vi-VN').format(h.gia || 0)} đ
+                                                                        {hIdx === 0 && <span className="ml-2 text-[10px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded">Hiện tại</span>}
+                                                                    </div>
+                                                                    <div className="text-[11px] text-gray-500">
+                                                                        Ngày nhập: {h.ngay ? new Date(h.ngay).toLocaleDateString('vi-VN') : 'Chưa rõ'}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <button 
+                                                                onClick={() => handleDeleteHistoryEntry(historyModalIdx, hIdx)}
+                                                                className="text-red-400 hover:text-red-600 p-1 rounded hover:bg-red-50"
+                                                                title="Xóa lần nhập này"
+                                                            >
+                                                                <Icons.Trash2 size={14}/>
+                                                            </button>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    <div className="p-3 bg-gray-50 border-t text-right">
+                                        <button onClick={() => setHistoryModalIdx(null)} className="px-4 py-1.5 bg-gray-700 hover:bg-gray-800 text-white rounded text-xs font-bold">
+                                            Đóng
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             );
@@ -516,15 +738,15 @@
             const [data, setData] = useState({
                 fileName: "Báo giá mới",
                 projectTitle: "BÁO GIÁ_Smart Home",
-                companyInfo: { logo: null, name: "Aqara Smarthome", subName: "Giải pháp chiếu sáng chuyên nghiệp và thông minh toàn diện", address: "truongdino4@gmail.com", website: "Trường Otiz", hotline: "0363035960" },
+                companyInfo: { logo: null, name: "Otiz Smarthome", subName: "Giải pháp chiếu sáng chuyên nghiệp và thông minh toàn diện", address: "otizsmarthome@gmail.com", website: "Otizsmarthome.io.vn", hotline: "0363035960" },
                 customerInfo: { companyName: "CÔNG TY TNHH TƯ VẤN THIẾT KẾ VÀ XÂY DỰNG NGUYÊN KHÁNH", mst: "316419615", address: "L18-11-13, Tầng 18, Tòa nhà Vincom Center Đồng Khởi, 72 Lê Thánh Tôn, P. Bến Nghé, Q.1, TP.HCM", contactName: "Anh Khánh", phone: "0911981618", quoteDate: new Date().toISOString().split('T')[0] },
-                items: [{ id: 1, title: "(I) BỘ ĐIỀU KHIỂN TRUNG TÂM + ĐIỀU HÒA", products: [{ id: 101, MaSP: "", name: "Bộ điều khiển trung tâm Camera Hub G3", description: "", image: null, brand: "AQARA", warranty: 18, qty: 1, unit: "Bộ", price: 3299000 }] }],
+                items: [{ id: 1, title: "(I) BỘ ĐIỀU KHIỂN TRUNG TÂM + ĐIỀU HÒA", products: [{ id: 101, MaSP: "", name: "Bộ điều khiển trung tâm Camera Hub G3", description: "", image: null, brand: "AQARA", warranty: 18, qty: 1, unit: "Bộ", price: 3299000, costPrice: 0 }] }],
                 financials: { discountType: 'amount', discountValue: 0, installationType: 'amount', installationValue: 11000000, showDiscount: true, showInstall: true },
                 paymentInfo: { show: false, title: "Tài khoản cá nhân:", stk: "STK: ... - Ngân hàng", ctk: "CTK: Trường Otiz" },
-                serviceInfo: { show1: true, show2: true, title1: "(1) Phí lắp đặt bao gồm:", desc1: "- Thi công phần cứng toàn bộ hệ thống Smarthome.\n- Không bao gồm chi phí kéo dây điện, đục tường.", title2: "(2) Phí dịch vụ bao gồm:", desc2: "- Bảo hành tận nơi theo thời gian bảo hành sản phẩm.\n- Kết nối toàn bộ hệ thống.\n- Thiết kế hệ thống, Cấu hình tự động hóa.\n- Chia phòng, đặt tên thiết bị, cấu hình tự động.\n- Hướng dẫn khách hàng thao tác sử dụng." },
-                settings: { showHeader: true, showPrices: true, showFinancials: true, showSignatures: true, showDate: true, showCustomerInfo: true, showGreeting: true },
-                greetingNote: "Aqara Smarthome xin chân thành cảm ơn Quý Khách đã quan tâm đến sản phẩm của chúng tôi, phúc đáp theo yêu cầu của Quý Khách chúng tôi xin gửi bảng báo giá như sau:",
-                footerNote: "Báo giá có giá trị 2 tuần - Aqara Smarthome",
+                serviceInfo: { show1: true, show2: true, title1: "(1) Phí lắp đặt bao gồm:", desc1: "- Thi công phần cứng toàn bộ hệ thống Smarthome.\n- Không bao gồm chi phí kéo dây điện, đục tường.", title2: "(2) Phí dịch vụ bao gồm:", desc2: "- Bảo hành tận nơi 30 ngày và bảo hành từ xa theo thời gian bảo hành sản phẩm.\n- Kết nối toàn bộ hệ thống.\n- Thiết kế hệ thống, Cấu hình tự động hóa.\n- Chia phòng, đặt tên thiết bị, cấu hình tự động.\n- Hướng dẫn khách hàng thao tác sử dụng." },
+                settings: { showHeader: true, showPrices: true, showDiscountedPrice: true, hideDiscountedOnPrint: true, showFinancials: true, showSignatures: true, showDate: true, showCustomerInfo: true, showGreeting: true },
+                greetingNote: "Otiz Smarthome xin chân thành cảm ơn Quý Khách đã quan tâm đến sản phẩm của chúng tôi, phúc đáp theo yêu cầu của Quý Khách chúng tôi xin gửi bảng báo giá như sau:",
+                footerNote: "Báo giá có giá trị 2 tuần - Otiz Smarthome",
                 signatures: { partyA: "ĐẠI DIỆN KHÁCH HÀNG\n(Ký và ghi rõ họ tên)", partyB: "ĐẠI DIỆN BÊN BÁN\n(Ký và ghi rõ họ tên)" }
             });
 
@@ -813,6 +1035,7 @@
                 prod.warranty = productData.BaoHanh || '18'; 
                 prod.unit = productData.DVT || 'Cái'; 
                 prod.price = parseFloat(productData.Gia) || 0;
+                prod.costPrice = parseFloat(productData.GiaNhap) || 0;
                 setData(newData);
             };
             
@@ -828,6 +1051,8 @@
             };
 
             const totals = calculateTotal();
+            // Tỉ lệ chiết khấu thực tế trên báo giá để tính Đơn giá sau CK cho từng sản phẩm
+            const effectiveDiscountRatio = totals.subtotal > 0 ? (totals.discount / totals.subtotal) : 0;
 
             // HÀM CHUYỂN ĐỔI TIỀN TỆ (VND <-> USD) THÔNG MINH
             const formatCurrency = (amt, isEditing = false) => {
@@ -859,6 +1084,10 @@
 
             const showHeader = data.settings?.showHeader ?? true;
             const showPrices = data.settings?.showPrices ?? true;
+            const showDiscountedPrice = data.settings?.showDiscountedPrice ?? true;
+            const hideDiscountedOnPrint = data.settings?.hideDiscountedOnPrint ?? true;
+            const isDiscountedColVisible = showPrices && showDiscountedPrice && !(isPreviewMode && hideDiscountedOnPrint);
+
             const showFinancials = data.settings?.showFinancials ?? true;
             const showSignatures = data.settings?.showSignatures ?? true;
             const showDate = data.settings?.showDate ?? true;
@@ -882,8 +1111,13 @@
             ];
             if (showPrices) {
                 baseHeaders.push({label: t.price, cls: "w-20 md:w-28"});
+                if (isDiscountedColVisible) {
+                    baseHeaders.push({label: t.discountedPrice, cls: `w-20 md:w-28 ${hideDiscountedOnPrint ? 'print:hidden' : ''}`});
+                }
                 baseHeaders.push({label: t.total, cls: "w-24 md:w-28"});
             }
+
+            const totalTableCols = 7 + (showPrices ? 2 : 0) + (isDiscountedColVisible ? 1 : 0) + (!isPreviewMode ? 1 : 0);
 
             return (
                 <div className="min-h-screen px-2 py-4 md:p-4 pb-24 bg-gray-100">
@@ -1065,18 +1299,32 @@
                                         </div>
                                     )}
                                     <div className="text-[10px] md:text-xs italic text-gray-600 text-justify flex w-full">
-                                        {renderEditable(data.greetingNote ?? "Aqara Smarthome xin chân thành cảm ơn Quý Khách đã quan tâm đến sản phẩm của chúng tôi, phúc đáp theo yêu cầu của Quý Khách chúng tôi xin gửi bảng báo giá như sau:", (e) => setData({...data, greetingNote: e.target.value}), "Lời chào báo giá...", "w-full bg-transparent flex-1", true)}
+                                        {renderEditable(data.greetingNote ?? "Otiz Smarthome xin chân thành cảm ơn Quý Khách đã quan tâm đến sản phẩm của chúng tôi, phúc đáp theo yêu cầu của Quý Khách chúng tôi xin gửi bảng báo giá như sau:", (e) => setData({...data, greetingNote: e.target.value}), "Lời chào báo giá...", "w-full bg-transparent flex-1", true)}
                                     </div>
                                     {!isPreviewMode && !showGreeting && <div className="text-red-500 font-medium text-[10px] ui-control bg-red-50 p-1 rounded inline-block mt-1">{t.hideGreetingMsg}</div>}
                                 </div>
                             )}
 
                             {!isPreviewMode && (
-                                <div className="flex justify-end mb-2 ui-control">
-                                    <label className="flex items-center gap-2 text-[10px] md:text-xs font-bold text-sky-700 cursor-pointer bg-sky-50 px-2 py-1 rounded border border-sky-200">
-                                        <input type="checkbox" checked={showPrices} onChange={(e) => setData({...data, settings: {...(data.settings || {}), showPrices: e.target.checked}})} className="w-3 h-3 accent-sky-600" />
+                                <div className="flex flex-wrap justify-end gap-2 mb-2 ui-control">
+                                    <label className="flex items-center gap-2 text-[10px] md:text-xs font-bold text-sky-700 cursor-pointer bg-sky-50 px-2.5 py-1 rounded border border-sky-200">
+                                        <input type="checkbox" checked={showPrices} onChange={(e) => setData({...data, settings: {...(data.settings || {}), showPrices: e.target.checked}})} className="w-3.5 h-3.5 accent-sky-600" />
                                         {t.showPriceCheck}
                                     </label>
+                                    {showPrices && (
+                                        <React.Fragment>
+                                            <label className="flex items-center gap-2 text-[10px] md:text-xs font-bold text-amber-800 cursor-pointer bg-amber-50 px-2.5 py-1 rounded border border-amber-200" title="Hiển thị cột Đơn giá sau chiết khấu để đối soát từng sản phẩm">
+                                                <input type="checkbox" checked={showDiscountedPrice} onChange={(e) => setData({...data, settings: {...(data.settings || {}), showDiscountedPrice: e.target.checked}})} className="w-3.5 h-3.5 accent-amber-600" />
+                                                {t.showDiscountedPriceCheck}
+                                            </label>
+                                            {showDiscountedPrice && (
+                                                <label className="flex items-center gap-2 text-[10px] md:text-xs font-bold text-emerald-800 cursor-pointer bg-emerald-50 px-2.5 py-1 rounded border border-emerald-200" title="Tự động ẩn cột Đơn giá sau CK khi bấm Xem hoặc In PDF để bảng báo giá sạch đẹp hơn">
+                                                    <input type="checkbox" checked={hideDiscountedOnPrint} onChange={(e) => setData({...data, settings: {...(data.settings || {}), hideDiscountedOnPrint: e.target.checked}})} className="w-3.5 h-3.5 accent-emerald-600" />
+                                                    {t.hideDiscountedOnPrintCheck}
+                                                </label>
+                                            )}
+                                        </React.Fragment>
+                                    )}
                                 </div>
                             )}
 
@@ -1095,7 +1343,7 @@
                                         {data.items.map((cat, catIdx) => (
                                             <React.Fragment key={cat.id}>
                                                 <tr className="bg-sky-100 break-inside-avoid">
-                                                    <td colSpan={!isPreviewMode ? (showPrices ? 10 : 8) : (showPrices ? 9 : 7)} className="px-2 py-2 border-l border-r border-sky-200">
+                                                    <td colSpan={totalTableCols} className="px-2 py-2 border-l border-r border-sky-200">
                                                         <div className="flex items-center gap-2 group">
                                                             <div className="flex-grow">{renderEditable(cat.title, (e) => {const d = {...data}; d.items[catIdx].title = e.target.value; setData(d)}, "", "font-bold text-sky-900 w-full uppercase text-xs md:text-sm")}</div>
                                                             {!isPreviewMode && (
@@ -1107,7 +1355,12 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                {cat.products.map((p, pIdx) => (
+                                                {cat.products.map((p, pIdx) => {
+                                                    const matchedDbProd = dbProducts.find(dbP => (p.MaSP && dbP.MaSP && dbP.MaSP.toLowerCase() === p.MaSP.toLowerCase()) || (p.name && dbP.TenSP && dbP.TenSP.toLowerCase() === p.name.toLowerCase()));
+                                                    const itemCost = matchedDbProd?.GiaNhap || p.costPrice || 0;
+                                                    const discountedUnitPrice = p.price * (1 - effectiveDiscountRatio);
+
+                                                    return (
                                                     <tr key={p.id} className="group hover:bg-sky-50 border-b border-l border-r border-gray-300 break-inside-avoid">
                                                         <td className="text-center text-gray-500 text-[10px] md:text-[11px] align-top py-2 relative w-8 md:w-10 p-0"><div className="w-full h-full flex items-center justify-center">{pIdx + 1}</div></td>
                                                         
@@ -1163,13 +1416,26 @@
                                                                 <td className="text-right px-1 md:px-2 font-medium pt-2 align-top w-20 md:w-28 relative">
                                                                     {renderEditable(formatCurrency(p.price, !isPreviewMode), (e) => updateItem(catIdx, pIdx, 'price', parseInt(e.target.value.replace(/[^0-9]/g,''))||0), "0", "text-right text-[10px] md:text-[11px]")}
                                                                 </td>
+                                                                {isDiscountedColVisible && (
+                                                                    <td className={`text-right px-1 md:px-2 pt-2 align-top w-20 md:w-28 bg-amber-50/40 print:bg-transparent ${hideDiscountedOnPrint ? 'print:hidden' : ''}`}>
+                                                                        <div className="font-bold text-emerald-700 text-[10px] md:text-[11px]">
+                                                                            {formatCurrency(discountedUnitPrice)}
+                                                                        </div>
+                                                                        {!isPreviewMode && itemCost > 0 && (
+                                                                            <div className="text-[9px] text-amber-700 mt-0.5 ui-control" title="Giá nhập lưu trong kho để đối chiếu">
+                                                                                Nhập: {formatCurrency(itemCost)}
+                                                                            </div>
+                                                                        )}
+                                                                    </td>
+                                                                )}
                                                                 <td className="text-right px-1 md:px-2 font-bold text-sky-800 pt-2 align-top text-[10px] md:text-[11px] w-24 md:w-28">{formatCurrency(p.qty * p.price)}</td>
                                                             </React.Fragment>
                                                         )}
 
                                                         {!isPreviewMode && <td className="text-center pt-2 align-top w-8 md:w-10 delete-col bg-gray-50 border-gray-200"><button onClick={() => removeProduct(catIdx, pIdx)} className="text-red-400 hover:text-red-600 p-1 rounded transition-colors"><Icons.Trash2 size={14}/></button></td>}
                                                     </tr>
-                                                ))}
+                                                    );
+                                                })}
                                             </React.Fragment>
                                         ))}
                                     </tbody>
@@ -1219,7 +1485,7 @@
                                                 )}
                                                 <div>
                                                     {renderEditable(data.serviceInfo?.title2 !== undefined ? data.serviceInfo.title2 : "(2) Phí dịch vụ bao gồm:", (e) => setData({...data, serviceInfo: {...data.serviceInfo, title2: e.target.value}}), "Tiêu đề 2", "font-bold text-sky-700 mb-1 mt-2 w-full bg-transparent")}
-                                                    {renderEditable(data.serviceInfo?.desc2 !== undefined ? data.serviceInfo.desc2 : "- Bảo hành tận nơi theo thời gian bảo hành sản phẩm.\n- Kết nối toàn bộ hệ thống.\n- Thiết kế hệ thống, Cấu hình tự động hóa.\n- Chia phòng, đặt tên thiết bị, cấu hình tự động.\n- Hướng dẫn khách hàng thao tác sử dụng.", (e) => setData({...data, serviceInfo: {...data.serviceInfo, desc2: e.target.value}}), "Mô tả phí dịch vụ...", "w-full bg-transparent text-gray-600 leading-relaxed", true)}
+                                                    {renderEditable(data.serviceInfo?.desc2 !== undefined ? data.serviceInfo.desc2 : "- Bảo hành tận nơi 30 ngày và bảo hành từ xa theo thời gian bảo hành sản phẩm.\n- Kết nối toàn bộ hệ thống.\n- Thiết kế hệ thống, Cấu hình tự động hóa.\n- Chia phòng, đặt tên thiết bị, cấu hình tự động.\n- Hướng dẫn khách hàng thao tác sử dụng.", (e) => setData({...data, serviceInfo: {...data.serviceInfo, desc2: e.target.value}}), "Mô tả phí dịch vụ...", "w-full bg-transparent text-gray-600 leading-relaxed", true)}
                                                 </div>
                                             </div>
                                         )}
@@ -1334,7 +1600,7 @@
                             )}
 
                             <div className="text-center text-[9px] md:text-[10px] text-gray-400 mt-12 md:mt-16 italic border-t border-gray-100 pt-3 break-inside-avoid">
-                                {renderEditable(data.footerNote !== undefined ? data.footerNote : "Báo giá có giá trị 2 tuần - Aqara Smarthome", (e) => setData({...data, footerNote: e.target.value}), "Ghi chú chân trang (Xóa sạch nếu muốn ẩn)...", "text-center w-full bg-transparent")}
+                                {renderEditable(data.footerNote !== undefined ? data.footerNote : "Báo giá có giá trị 2 tuần - Otiz Smarthome", (e) => setData({...data, footerNote: e.target.value}), "Ghi chú chân trang (Xóa sạch nếu muốn ẩn)...", "text-center w-full bg-transparent")}
                             </div>
 
                         </div>
